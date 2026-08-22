@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced Color Grading in Premiere Pro - PIXANITHING</title>
+
+    <!-- ===== SEO Meta Tags ===== -->
+    <meta name="description" content="Learn professional color grading techniques in Adobe Premiere Pro. Transform your footage from flat to cinematic." />
+    <meta name="theme-color" content="#6C63FF" />
+
+    <!-- ===== Open Graph Meta Tags ===== -->
+    <meta property="og:title" content="Advanced Color Grading in Premiere Pro" />
+    <meta property="og:description" content="Learn professional color grading techniques in Adobe Premiere Pro." />
+    <meta property="og:image" content="https://picsum.photos/seed/vid1/1200/630" />
+    <meta property="og:type" content="video" />
+
+    <!-- ===== Fonts & Icons ===== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+
+    <!-- ===== Custom CSS ===== -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+        /* ===== VIDEO DETAIL PAGE SPECIFIC STYLES ===== */
+        .video-detail-page {
+            padding: 100px 0 60px;
+            background: var(--bg-primary);
+            min-height: 100vh;
+        }
+
+        /* ===== VIDEO PLAYER ===== */
+        .video-player-wrapper {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin-bottom: 24px;
+        }
+
+        .video-player {
+            position: relative;
+            padding-top: 56.25%;
+            background: #000;
+        }
+
+        .video-player iframe,
+        .video-player video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* ===== VIDEO INFO ===== */
+        .video-info-section {
+            padding: 20px 0 10px;
+        }
+
+        .video-info-section h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        /* ===== VIDEO META BAR ===== */
+        .video-meta-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .video-meta-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .video-meta-left .channel-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .video-meta-left .channel-info img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-gradient);
+        }
+
+        .video-meta-left .channel-info .name {
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .video-meta-left .channel-info .subscribers {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .video-meta-left .stats {
+            display: flex;
+            gap: 18px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .video-meta-left .stats i {
+            margin-right: 4px;
+        }
+
+        .video-meta-right {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .video-meta-right .action-btn {
+            padding: 8px 18px;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: var(--font-family);
+        }
+
+        .video-meta-right .action-btn:hover {
+            border-color: var(--accent-primary);
+            color: var(--text-primary);
+        }
+
+        .video-meta-right .action-btn.liked {
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .video-meta-right .action-btn.liked i {
+            color: var(--accent-primary);
+        }
+
+        .video-meta-right .action-btn.saved {
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        /* ===== VIDEO DESCRIPTION ===== */
+        .video-description {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .video-description .tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .video-description .tags span {
+            padding: 4px 14px;
+            border-radius: 20px;
+            background: var(--bg-input);
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .video-description .tags span:hover {
+            color: var(--accent-primary);
+        }
+
+        .video-description p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 6px;
+        }
+
+        .video-description .show-more {
+            color: var(--accent-primary);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: var(--transition);
+            border: none;
+            background: none;
+            font-family: var(--font-family);
+        }
+
+        .video-description .show-more:hover {
+            color: var(--accent-secondary);
+        }
+
+        /* ===== COMMENTS ===== */
+        .comments-section {
+            padding: 24px 0;
+        }
+
+        .comments-section .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .comments-section .comments-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .comments-section .comments-header .count {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .comment-item {
+            display: flex;
+            gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .comment-item:last-child {
+            border-bottom: none;
+        }
+
+        .comment-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .comment-item .comment-body .name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .comment-item .comment-body .date {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-left: 8px;
+        }
+
+        .comment-item .comment-body p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+            line-height: 1.6;
+        }
+
+        .comment-item .comment-body .reply-btn {
+            color: var(--accent-primary);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: var(--font-family);
+            margin-top: 4px;
+            transition: var(--transition);
+        }
+
+        .comment-item .comment-body .reply-btn:hover {
+            color: var(--accent-secondary);
+        }
+
+        /* ===== COMMENT FORM ===== */
+        .comment-form {
+            margin-top: 20px;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .comment-form img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .comment-form .input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .comment-form .input-wrapper input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-input);
+            color: var(--text-primary);
+            font-size: 15px;
+            outline: none;
+            font-family: var(--font-family);
+            transition: var(--transition);
+        }
+
+        .comment-form .input-wrapper input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.08);
+        }
+
+        .comment-form .input-wrapper input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .comment-form .input-wrapper .post-btn {
+            position: absolute;
+            right: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 6px 20px;
+            border-radius: 50px;
+            background: var(--accent-gradient);
+            color: #fff;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: var(--transition);
+            font-family: var(--font-family);
+        }
+
+        .comment-form .input-wrapper .post-btn:hover {
+            transform: translateY(-50%) scale(1.02);
+        }
+
+        .comment-form .input-wrapper .post-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ===== RELATED VIDEOS ===== */
+        .related-videos {
+            padding: 30px 0 10px;
+        }
+
+        .related-videos h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .related-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .related-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent-primary);
+        }
+
+        .related-card .thumb {
+            position: relative;
+            padding-top: 56.25%;
+            overflow: hidden;
+            background: var(--bg-input);
+        }
+
+        .related-card .thumb img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .related-card:hover .thumb img {
+            transform: scale(1.04);
+        }
+
+        .related-card .thumb .duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .related-card .info {
+            padding: 14px 16px;
+        }
+
+        .related-card .info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .related-card .info .meta {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .video-detail-page {
+                padding: 80px 0 40px;
+            }
+
+            .video-info-section h1 {
+                font-size: 20px;
+            }
+
+            .video-meta-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .video-meta-left {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .video-meta-left .stats {
+                flex-wrap: wrap;
+                gap: 12px;
+                font-size: 13px;
+            }
+
+            .video-meta-right {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .video-meta-right .action-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+
+            .comment-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .comment-form img {
+                display: none;
+            }
+
+            .comment-form .input-wrapper input {
+                border-radius: var(--radius-sm);
+            }
+
+            .comment-form .input-wrapper .post-btn {
+                position: static;
+                transform: none;
+                margin-top: 8px;
+                width: 100%;
+                padding: 12px;
+                border-radius: var(--radius-sm);
+            }
+
+            .comment-form .input-wrapper .post-btn:hover {
+                transform: none;
+            }
+
+            .related-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comment-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .video-info-section h1 {
+                font-size: 17px;
+            }
+
+            .video-meta-left .stats {
+                font-size: 12px;
+                gap: 8px;
+            }
+
+            .video-meta-right .action-btn {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+
+            .video-description p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-play-circle"></i>
+                    <span>PIXANI<span>THING</span></span>
+                </a>
+
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="videos.html" class="active">Videos</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <a href="login.html" class="btn-login">
+                        <i class="fas fa-user"></i> <span class="btn-text">Login</span>
+                    </a>
+                    <button class="hamburger" id="hamburger" aria-label="Menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== VIDEO DETAIL PAGE ===== -->
+    <section class="video-detail-page">
+        <div class="container">
+
+            <!-- ===== VIDEO PLAYER ===== -->
+            <div class="video-player-wrapper">
+                <div class="video-player" id="videoPlayer">
+                    <!-- YouTube Embed - Replace with your video ID -->
+                    <iframe
+                        src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                        title="Video Player"
+                    ></iframe>
+                </div>
+            </div>
+
+            <!-- ===== VIDEO INFO ===== -->
+            <div class="video-info-section">
+                <h1 id="videoTitle">Advanced Color Grading in Premiere Pro</h1>
+
+                <div class="video-meta-bar">
+                    <div class="video-meta-left">
+                        <div class="channel-info">
+                            <img src="https://picsum.photos/seed/channel/100/100" alt="Channel" id="channelAvatar" />
+                            <div>
+                                <div class="name" id="channelName">PIXANITHING</div>
+                                <div class="subscribers" id="channelSubs">125K subscribers</div>
+                            </div>
+                        </div>
+                        <div class="stats">
+                            <span id="videoViews"><i class="fas fa-eye"></i> 45,234 views</span>
+                            <span id="videoDate"><i class="fas fa-calendar"></i> December 15, 2026</span>
+                        </div>
+                    </div>
+                    <div class="video-meta-right">
+                        <button class="action-btn" id="likeBtn">
+                            <i class="fas fa-thumbs-up"></i> <span id="likeCount">1.2K</span>
+                        </button>
+                        <button class="action-btn" id="dislikeBtn">
+                            <i class="fas fa-thumbs-down"></i> <span id="dislikeCount">34</span>
+                        </button>
+                        <button class="action-btn" id="shareBtn">
+                            <i class="fas fa-share"></i> Share
+                        </button>
+                        <button class="action-btn" id="saveBtn">
+                            <i class="fas fa-bookmark"></i> Save
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ===== DESCRIPTION ===== -->
+                <div class="video-description">
+                    <div class="tags" id="videoTags">
+                        <span>#ColorGrading</span>
+                        <span>#PremierePro</span>
+                        <span>#VideoEditing</span>
+                        <span>#Tutorial</span>
+                        <span>#PIXANITHING</span>
+                    </div>
+                    <p id="descriptionText">
+                        Learn professional color grading techniques in Adobe Premiere Pro.
+                        In this tutorial, I'll show you how to transform your footage from
+                        flat and lifeless to cinematic and vibrant.
+                    </p>
+                    <p id="descriptionFull" style="display: none;">
+                        <br>
+                        We'll cover:
+                        • Understanding color theory and why it matters
+                        • Using Lumetri Color panel effectively
+                        • Working with curves and color wheels
+                        • Creating cinematic looks with LUTs
+                        • Advanced techniques like secondary color correction
+                        • Export settings for the best quality
+                        <br><br>
+                        🎬 Software Used: Adobe Premiere Pro 2026
+                        📷 Camera: Sony A7 IV
+                        🎵 Music: Epidemic Sound
+                        <br><br>
+                        🔔 Subscribe for more tutorials: https://youtube.com/pixanithing
+                        📸 Follow us on Instagram: @pixanithing
+                    </p>
+                    <button class="show-more" id="showMoreBtn">Show More</button>
+                </div>
+
+                <!-- ===== COMMENTS ===== -->
+                <div class="comments-section">
+                    <div class="comments-header">
+                        <h3>Comments</h3>
+                        <span class="count" id="commentCount">(24)</span>
+                    </div>
+
+                    <!-- Comment Form -->
+                    <div class="comment-form">
+                        <img src="https://ui-avatars.com/api/?name=User&background=6C63FF&color=fff&size=64" alt="User" />
+                        <div class="input-wrapper">
+                            <input type="text" id="commentInput" placeholder="Add a comment..." />
+                            <button class="post-btn" id="postCommentBtn" disabled>Post</button>
+                        </div>
+                    </div>
+
+                    <!-- Comments List -->
+                    <div id="commentsList">
+                        <div class="comment-item">
+                            <img src="https://picsum.photos/seed/comment1/100/100" alt="User" />
+                            <div class="comment-body">
+                                <div>
+                                    <span class="name">Rahul Sharma</span>
+                                    <span class="date">2 days ago</span>
+                                </div>
+                                <p>This tutorial is amazing! I finally understand how to use curves properly. Thank you! 🙌</p>
+                                <button class="reply-btn" onclick="replyToComment('Rahul Sharma')">Reply</button>
+                            </div>
+                        </div>
+
+                        <div class="comment-item">
+                            <img src="https://picsum.photos/seed/comment2/100/100" alt="User" />
+                            <div class="comment-body">
+                                <div>
+                                    <span class="name">Priya Patel</span>
+                                    <span class="date">3 days ago</span>
+                                </div>
+                                <p>Can you do a tutorial on skin tone correction? That would be really helpful!</p>
+                                <button class="reply-btn" onclick="replyToComment('Priya Patel')">Reply</button>
+                            </div>
+                        </div>
+
+                        <div class="comment-item">
+                            <img src="https://picsum.photos/seed/comment3/100/100" alt="User" />
+                            <div class="comment-body">
+                                <div>
+                                    <span class="name">Vikram Singh</span>
+                                    <span class="date">5 days ago</span>
+                                </div>
+                                <p>Best color grading tutorial I've seen. The LUT section was gold!</p>
+                                <button class="reply-btn" onclick="replyToComment('Vikram Singh')">Reply</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== RELATED VIDEOS ===== -->
+            <div class="related-videos">
+                <h3>Related Videos</h3>
+                <div class="related-grid" id="relatedGrid">
+                    <div class="related-card" onclick="location.href='video-detail.html'">
+                        <div class="thumb">
+                            <img src="https://picsum.photos/seed/r1/400/250" alt="Related Video" loading="lazy" />
+                            <span class="duration">15:23</span>
+                        </div>
+                        <div class="info">
+                            <h4>Cinematic Lighting Techniques for Low Budget</h4>
+                            <div class="meta">51K views • 2 weeks ago</div>
+                        </div>
+                    </div>
+
+                    <div class="related-card" onclick="location.href='video-detail.html'">
+                        <div class="thumb">
+                            <img src="https://picsum.photos/seed/r2/400/250" alt="Related Video" loading="lazy" />
+                            <span class="duration">22:41</span>
+                        </div>
+                        <div class="info">
+                            <h4>After Effects Motion Graphics for Beginners</h4>
+                            <div class="meta">28K views • 3 weeks ago</div>
+                        </div>
+                    </div>
+
+                    <div class="related-card" onclick="location.href='video-detail.html'">
+                        <div class="thumb">
+                            <img src="https://picsum.photos/seed/r3/400/250" alt="Related Video" loading="lazy" />
+                            <span class="duration">19:45</span>
+                        </div>
+                        <div class="info">
+                            <h4>How I Edit My YouTube Videos (Full Workflow)</h4>
+                            <div class="meta">67K views • 1 week ago</div>
+                        </div>
+                    </div>
+
+                    <div class="related-card" onclick="location.href='video-detail.html'">
+                        <div class="thumb">
+                            <img src="https://picsum.photos/seed/r4/400/250" alt="Related Video" loading="lazy" />
+                            <span class="duration">16:42</span>
+                        </div>
+                        <div class="info">
+                            <h4>Sony A7 IV Camera Review 2026</h4>
+                            <div class="meta">41K views • 2 weeks ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <i class="fas fa-play-circle"></i>
+                        <span>PIXANI<span>THING</span></span>
+                    </a>
+                    <p>Empowering creators with premium knowledge, inspiration, and practical skills.</p>
+                    <div class="social-links">
+                        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="videos.html">Videos</a></li>
+                        <li><a href="tutorials.html">Tutorials</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="videos.html?cat=tutorial">Tutorials</a></li>
+                        <li><a href="videos.html?cat=vlog">Vlogs</a></li>
+                        <li><a href="videos.html?cat=review">Reviews</a></li>
+                        <li><a href="videos.html?cat=inspiration">Inspiration</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> hello@pixanithing.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> New York, USA</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 PIXANITHING. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== BACK TO TOP ===== -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script src="js/script.js"></script>
+
+    <!-- ===== PAGE-SPECIFIC JAVASCRIPT ===== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // ========================================
+            // LIKE BUTTON
+            // ========================================
+            const likeBtn = document.getElementById('likeBtn');
+            const likeCount = document.getElementById('likeCount');
+            let isLiked = false;
+            let likes = 1200;
+
+            likeBtn.addEventListener('click', function() {
+                if (isLiked) {
+                    likes--;
+                    this.classList.remove('liked');
+                } else {
+                    likes++;
+                    this.classList.add('liked');
+                }
+                isLiked = !isLiked;
+                likeCount.textContent = likes >= 1000 ? (likes / 1000).toFixed(1) + 'K' : likes;
+            });
+
+            // ========================================
+            // DISLIKE BUTTON
+            // ========================================
+            const dislikeBtn = document.getElementById('dislikeBtn');
+            const dislikeCount = document.getElementById('dislikeCount');
+            let isDisliked = false;
+            let dislikes = 34;
+
+            dislikeBtn.addEventListener('click', function() {
+                if (isDisliked) {
+                    dislikes--;
+                    this.classList.remove('liked');
+                } else {
+                    dislikes++;
+                    this.classList.add('liked');
+                }
+                isDisliked = !isDisliked;
+                dislikeCount.textContent = dislikes;
+            });
+
+            // ========================================
+            // SHARE BUTTON
+            // ========================================
+            document.getElementById('shareBtn').addEventListener('click', function() {
+                if (navigator.share) {
+                    navigator.share({
+                        title: document.getElementById('videoTitle').textContent,
+                        text: 'Check out this amazing video from PIXANITHING!',
+                        url: window.location.href
+                    }).catch(function() {});
+                } else {
+                    navigator.clipboard.writeText(window.location.href).then(function() {
+                        window.showNotification('🔗 Link copied to clipboard!', 'success');
+                    }).catch(function() {
+                        prompt('Copy this URL:', window.location.href);
+                    });
+                }
+            });
+
+            // ========================================
+            // SAVE BUTTON
+            // ========================================
+            const saveBtn = document.getElementById('saveBtn');
+            let isSaved = false;
+
+            saveBtn.addEventListener('click', function() {
+                isSaved = !isSaved;
+                this.innerHTML = isSaved ?
+                    '<i class="fas fa-bookmark" style="color:var(--accent-primary);"></i> Saved' :
+                    '<i class="fas fa-bookmark"></i> Save';
+                this.classList.toggle('saved', isSaved);
+            });
+
+            // ========================================
+            // SHOW MORE / LESS
+            // ========================================
+            const showMoreBtn = document.getElementById('showMoreBtn');
+            const descriptionFull = document.getElementById('descriptionFull');
+            let isExpanded = false;
+
+            showMoreBtn.addEventListener('click', function() {
+                isExpanded = !isExpanded;
+                descriptionFull.style.display = isExpanded ? 'block' : 'none';
+                this.textContent = isExpanded ? 'Show Less' : 'Show More';
+            });
+
+            // ========================================
+            // COMMENT POST
+            // ========================================
+            const commentInput = document.getElementById('commentInput');
+            const postCommentBtn = document.getElementById('postCommentBtn');
+            const commentsList = document.getElementById('commentsList');
+            const commentCount = document.getElementById('commentCount');
+
+            function postComment() {
+                const text = commentInput.value.trim();
+                if (!text) return;
+
+                const commentItem = document.createElement('div');
+                commentItem.className = 'comment-item';
+                commentItem.innerHTML = `
+                    <img src="https://ui-avatars.com/api/?name=You&background=6C63FF&color=fff&size=64" alt="User" />
+                    <div class="comment-body">
+                        <div>
+                            <span class="name">You</span>
+                            <span class="date">Just now</span>
+                        </div>
+                        <p>${text}</p>
+                        <button class="reply-btn" onclick="replyToComment('You')">Reply</button>
+                    </div>
+                `;
+
+                commentsList.appendChild(commentItem);
+                commentInput.value = '';
+                postCommentBtn.disabled = true;
+
+                // Update comment count
+                const currentCount = parseInt(commentCount.textContent.match(/\d+/)[0]);
+                commentCount.textContent = `(${currentCount + 1})`;
+
+                window.showNotification('Comment posted successfully! 🎉', 'success');
+            }
+
+            commentInput.addEventListener('input', function() {
+                postCommentBtn.disabled = this.value.trim() === '';
+            });
+
+            postCommentBtn.addEventListener('click', postComment);
+
+            commentInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    if (!postCommentBtn.disabled) {
+                        postComment();
+                    }
+                }
+            });
+
+            // ========================================
+            // REPLY TO COMMENT
+            // ========================================
+            window.replyToComment = function(name) {
+                commentInput.value = `@${name} `;
+                commentInput.focus();
+            };
+
+            // ========================================
+            // REPLY BUTTONS (Existing comments)
+            // ========================================
+            document.querySelectorAll('.reply-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const commentBody = this.closest('.comment-body');
+                    const name = commentBody.querySelector('.name').textContent;
+                    commentInput.value = `@${name} `;
+                    commentInput.focus();
+                });
+            });
+
+            console.log('✅ Video detail page loaded successfully!');
+
+        });
+    </script>
+
+</body>
+</html>

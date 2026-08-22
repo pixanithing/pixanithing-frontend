@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tutorials - PIXANITHING</title>
+
+    <!-- ===== SEO Meta Tags ===== -->
+    <meta name="description" content="Step-by-step creative tutorials on video editing, motion graphics, and more." />
+    <meta name="theme-color" content="#6C63FF" />
+
+    <!-- ===== Fonts & Icons ===== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+
+    <!-- ===== Custom CSS ===== -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+        /* ========================================
+           TUTORIALS PAGE SPECIFIC STYLES
+           ======================================== */
+        .tutorials-page {
+            padding: 100px 0 60px;
+            background: var(--bg-primary);
+            min-height: 100vh;
+        }
+
+        .tutorials-header {
+            margin-bottom: 32px;
+        }
+
+        .tutorials-header h1 {
+            font-size: 36px;
+            font-weight: 800;
+        }
+
+        .tutorials-header h1 span {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tutorials-header p {
+            color: var(--text-secondary);
+            font-size: 17px;
+            margin-top: 4px;
+        }
+
+        .tutorial-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+            padding: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+        }
+
+        .tutorial-stats .stat-item {
+            text-align: center;
+        }
+
+        .tutorial-stats .stat-item .number {
+            font-size: 28px;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .tutorial-stats .stat-item .label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* ===== FILTER BAR ===== */
+        .filter-wrapper {
+            position: relative;
+            margin-bottom: 32px;
+        }
+
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            transition: top 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+
+        @media (min-width: 769px) {
+            .filter-wrapper.is-sticky .filter-bar {
+                position: fixed;
+                top: 72px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: calc(100% - 40px);
+                max-width: var(--container-width);
+                z-index: 100;
+                box-shadow: var(--shadow-md);
+                background: rgba(var(--bg-card), 0.95);
+                backdrop-filter: blur(12px);
+                border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+                border-top: none;
+                animation: slideDown 0.3s ease;
+            }
+        }
+
+        .filter-groups {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .filter-group .group-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 4px;
+        }
+
+        .filter-btn {
+            padding: 6px 16px;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-input);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 13px;
+            font-weight: 500;
+            font-family: var(--font-family);
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent-primary);
+            color: var(--text-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--accent-gradient);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .filter-search {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 4px 16px 4px 18px;
+            min-width: 200px;
+            flex-shrink: 0;
+        }
+
+        .filter-search i {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .filter-search input {
+            background: none;
+            border: none;
+            padding: 10px 0;
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+            width: 100%;
+            font-family: var(--font-family);
+        }
+
+        .filter-search input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .filter-search .clear-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+        }
+
+        .filter-search .clear-btn.visible {
+            display: block;
+        }
+
+        .filter-search .clear-btn:hover {
+            color: var(--text-primary);
+        }
+
+        /* ===== FLOATING FILTER BUTTON (Mobile) ===== */
+        .filter-float-btn {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 200;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            color: #fff;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.4);
+            transition: var(--transition);
+        }
+
+        .filter-float-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(108, 99, 255, 0.5);
+        }
+
+        .filter-float-btn .badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #FF6B35;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== MOBILE FILTER OVERLAY ===== */
+        .filter-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 300;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .filter-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .filter-overlay .filter-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 28px 24px;
+            max-width: 480px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: scaleIn 0.3s ease;
+        }
+
+        .filter-overlay .filter-panel .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .filter-overlay .filter-panel .panel-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .filter-overlay .filter-panel .panel-header .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-overlay .filter-panel .panel-header .close-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .filter-overlay .filter-panel .filter-group-mobile {
+            margin-bottom: 16px;
+        }
+
+        .filter-overlay .filter-panel .filter-group-mobile .group-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .filter-overlay .filter-panel .filter-group-mobile .filter-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .filter-overlay .filter-panel .filter-group-mobile .filter-btns .filter-btn {
+            flex: 1 0 auto;
+            text-align: center;
+        }
+
+        .filter-overlay .filter-panel .filter-search-mobile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 4px 16px 4px 18px;
+            margin-top: 8px;
+        }
+
+        .filter-overlay .filter-panel .filter-search-mobile i {
+            color: var(--text-muted);
+        }
+
+        .filter-overlay .filter-panel .filter-search-mobile input {
+            background: none;
+            border: none;
+            padding: 12px 0;
+            color: var(--text-primary);
+            font-size: 15px;
+            outline: none;
+            width: 100%;
+            font-family: var(--font-family);
+        }
+
+        .filter-overlay .filter-panel .filter-search-mobile input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .filter-overlay .filter-panel .apply-filters-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            background: var(--accent-gradient);
+            color: #fff;
+            border: none;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 16px;
+            font-family: var(--font-family);
+            transition: var(--transition);
+        }
+
+        .filter-overlay .filter-panel .apply-filters-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(108, 99, 255, 0.3);
+        }
+
+        /* ===== TUTORIAL COUNT ===== */
+        .tutorial-count {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .tutorial-count span {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* ===== TUTORIAL GRID ===== */
+        .tutorial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 28px;
+        }
+
+        .tutorial-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+            animation: fadeInUp 0.5s ease both;
+        }
+
+        .tutorial-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .tutorial-card .thumbnail {
+            position: relative;
+            padding-top: 56.25%;
+            overflow: hidden;
+            background: var(--bg-input);
+        }
+
+        .tutorial-card .thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .tutorial-card:hover .thumbnail img {
+            transform: scale(1.04);
+        }
+
+        .tutorial-card .thumbnail .duration {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .tutorial-card .thumbnail .play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            color: #fff;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .tutorial-card:hover .thumbnail .play-btn {
+            opacity: 1;
+        }
+
+        .tutorial-card .thumbnail .play-btn:hover {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .tutorial-card .thumbnail .level-tag {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 3px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+        }
+
+        .tutorial-card .thumbnail .level-tag.beginner {
+            background: rgba(76, 175, 80, 0.85);
+        }
+
+        .tutorial-card .thumbnail .level-tag.intermediate {
+            background: rgba(255, 193, 7, 0.85);
+            color: #1a1a1a;
+        }
+
+        .tutorial-card .thumbnail .level-tag.advanced {
+            background: rgba(244, 67, 54, 0.85);
+        }
+
+        .tutorial-card .thumbnail .category-tag {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: var(--accent-gradient);
+            color: #fff;
+            padding: 2px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .tutorial-card .info {
+            padding: 18px 20px;
+        }
+
+        .tutorial-card .info .top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .tutorial-card .info .top-row .difficulty {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 2px 12px;
+            border-radius: 20px;
+        }
+
+        .tutorial-card .info .top-row .difficulty.beginner {
+            background: rgba(76, 175, 80, 0.12);
+            color: #4CAF50;
+        }
+
+        .tutorial-card .info .top-row .difficulty.intermediate {
+            background: rgba(255, 193, 7, 0.12);
+            color: #FFC107;
+        }
+
+        .tutorial-card .info .top-row .difficulty.advanced {
+            background: rgba(244, 67, 54, 0.12);
+            color: #F44336;
+        }
+
+        .tutorial-card .info .top-row .views {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .tutorial-card .info h3 {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .tutorial-card .info p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .tutorial-card .info .meta {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            flex-wrap: wrap;
+        }
+
+        .tutorial-card .info .meta i {
+            margin-right: 4px;
+        }
+
+        .tutorial-card .info .progress-container {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .tutorial-card .info .progress-container .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .tutorial-card .info .progress-container .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--bg-input);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+
+        .tutorial-card .info .progress-container .progress-bar .fill {
+            height: 100%;
+            border-radius: 4px;
+            background: var(--accent-gradient);
+            transition: width 1s ease;
+            width: 0%;
+        }
+
+        .loading-shimmer {
+            background: var(--bg-input);
+            border-radius: var(--radius-lg);
+            min-height: 320px;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        /* ===== LOAD MORE ===== */
+        .load-more-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .load-more-container .btn {
+            padding: 14px 40px;
+        }
+
+        .load-more-container .btn .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .load-more-container .btn.loading .spinner {
+            display: inline-block;
+        }
+
+        .load-more-container .btn.loading .btn-text {
+            display: none;
+        }
+
+        /* ===== NO RESULTS ===== */
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+            grid-column: 1 / -1;
+        }
+
+        .no-results.show {
+            display: block;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .no-results i {
+            font-size: 56px;
+            color: var(--text-muted);
+            opacity: 0.4;
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .no-results h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .no-results p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+
+            .filter-groups {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group {
+                justify-content: center;
+            }
+
+            .filter-search {
+                width: 100%;
+                min-width: unset;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .tutorials-page {
+                padding: 80px 0 40px;
+            }
+
+            .tutorials-header h1 {
+                font-size: 28px;
+            }
+
+            .tutorial-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .tutorial-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                padding: 16px;
+            }
+
+            .tutorial-stats .stat-item .number {
+                font-size: 22px;
+            }
+
+            .filter-bar {
+                display: none !important;
+            }
+
+            .filter-float-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .filter-overlay .filter-panel {
+                padding: 20px 16px;
+                margin: 10px;
+            }
+
+            .filter-overlay .filter-panel .filter-group-mobile .filter-btns .filter-btn {
+                font-size: 12px;
+                padding: 5px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tutorials-header h1 {
+                font-size: 22px;
+            }
+
+            .tutorial-card .info h3 {
+                font-size: 15px;
+            }
+
+            .tutorial-card .info p {
+                font-size: 13px;
+            }
+
+            .tutorial-card .info .meta {
+                font-size: 12px;
+                gap: 12px;
+            }
+
+            .tutorial-stats .stat-item .number {
+                font-size: 20px;
+            }
+
+            .filter-float-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 48px;
+                height: 48px;
+                font-size: 18px;
+            }
+
+            .filter-overlay .filter-panel {
+                padding: 16px 14px;
+            }
+
+            .filter-overlay .filter-panel .panel-header h3 {
+                font-size: 16px;
+            }
+
+            .filter-overlay .filter-panel .filter-group-mobile .filter-btns .filter-btn {
+                font-size: 11px;
+                padding: 4px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-play-circle"></i>
+                    <span>PIXANI<span>THING</span></span>
+                </a>
+
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="videos.html">Videos</a></li>
+                    <li><a href="tutorials.html" class="active">Tutorials</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <a href="login.html" class="btn-login">
+                        <i class="fas fa-user"></i> <span class="btn-text">Login</span>
+                    </a>
+                    <button class="hamburger" id="hamburger" aria-label="Menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== TUTORIALS PAGE ===== -->
+    <section class="tutorials-page">
+        <div class="container">
+
+            <!-- ===== HEADER ===== -->
+            <div class="tutorials-header">
+                <h1>Creative <span>Tutorials</span></h1>
+                <p>Step-by-step guides to master creative skills and techniques</p>
+            </div>
+
+            <!-- ===== STATS ===== -->
+            <div class="tutorial-stats" id="tutorialStats">
+                <div class="stat-item">
+                    <span class="number" id="totalTutorials">0</span>
+                    <span class="label">Total Tutorials</span>
+                </div>
+                <div class="stat-item">
+                    <span class="number" id="beginnerCount">0</span>
+                    <span class="label">Beginner</span>
+                </div>
+                <div class="stat-item">
+                    <span class="number" id="intermediateCount">0</span>
+                    <span class="label">Intermediate</span>
+                </div>
+                <div class="stat-item">
+                    <span class="number" id="advancedCount">0</span>
+                    <span class="label">Advanced</span>
+                </div>
+            </div>
+
+            <!-- ===== FILTER WRAPPER ===== -->
+            <div class="filter-wrapper" id="filterWrapper">
+
+                <!-- ===== DESKTOP FILTER BAR ===== -->
+                <div class="filter-bar" id="filterBar">
+                    <div class="filter-groups">
+                        <div class="filter-group">
+                            <span class="group-label"><i class="fas fa-tag"></i> Category</span>
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="video-editing">Video Editing</button>
+                            <button class="filter-btn" data-filter="motion-graphics">Motion Graphics</button>
+                            <button class="filter-btn" data-filter="color-grading">Color Grading</button>
+                            <button class="filter-btn" data-filter="audio">Audio</button>
+                            <button class="filter-btn" data-filter="gear">Gear & Setup</button>
+                        </div>
+                        <div class="filter-group">
+                            <span class="group-label"><i class="fas fa-signal"></i> Level</span>
+                            <button class="filter-btn active" data-level="all">All</button>
+                            <button class="filter-btn" data-level="beginner">🟢 Beginner</button>
+                            <button class="filter-btn" data-level="intermediate">🟡 Intermediate</button>
+                            <button class="filter-btn" data-level="advanced">🔴 Advanced</button>
+                        </div>
+                    </div>
+                    <div class="filter-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search tutorials..." />
+                        <button class="clear-btn" id="clearSearch" aria-label="Clear search">
+                            <i class="fas fa-times-circle"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ===== TUTORIAL COUNT ===== -->
+            <div class="tutorial-count">
+                Showing <span id="visibleCount">0</span> tutorials
+            </div>
+
+            <!-- ===== TUTORIAL GRID ===== -->
+            <div class="tutorial-grid" id="tutorialGrid">
+                <div class="loading-shimmer" style="height:340px;"></div>
+                <div class="loading-shimmer" style="height:340px;"></div>
+                <div class="loading-shimmer" style="height:340px;"></div>
+                <div class="loading-shimmer" style="height:340px;"></div>
+                <div class="loading-shimmer" style="height:340px;"></div>
+                <div class="loading-shimmer" style="height:340px;"></div>
+            </div>
+
+            <!-- ===== NO RESULTS ===== -->
+            <div class="no-results" id="noResults">
+                <i class="fas fa-search"></i>
+                <h3>No tutorials found</h3>
+                <p>Try adjusting your search or filter criteria</p>
+            </div>
+
+            <!-- ===== LOAD MORE ===== -->
+            <div class="load-more-container" id="loadMoreContainer">
+                <button class="btn btn-primary" id="loadMoreBtn">
+                    <span class="spinner"></span>
+                    <span class="btn-text"><i class="fas fa-redo"></i> Load More</span>
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== FLOATING FILTER BUTTON (Mobile Only) ===== -->
+    <button class="filter-float-btn" id="filterFloatBtn" aria-label="Open filters">
+        <i class="fas fa-sliders-h"></i>
+        <span class="badge" id="filterBadge">0</span>
+    </button>
+
+    <!-- ===== MOBILE FILTER OVERLAY ===== -->
+    <div class="filter-overlay" id="filterOverlay">
+        <div class="filter-panel">
+            <div class="panel-header">
+                <h3><i class="fas fa-sliders-h" style="color:var(--accent-primary);margin-right:8px;"></i> Filters</h3>
+                <button class="close-btn" id="closeFilterOverlay">&times;</button>
+            </div>
+
+            <div class="filter-group-mobile">
+                <span class="group-label"><i class="fas fa-tag"></i> Category</span>
+                <div class="filter-btns" id="categoryFilterMobile">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="video-editing">Video Editing</button>
+                    <button class="filter-btn" data-filter="motion-graphics">Motion Graphics</button>
+                    <button class="filter-btn" data-filter="color-grading">Color Grading</button>
+                    <button class="filter-btn" data-filter="audio">Audio</button>
+                    <button class="filter-btn" data-filter="gear">Gear & Setup</button>
+                </div>
+            </div>
+
+            <div class="filter-group-mobile">
+                <span class="group-label"><i class="fas fa-signal"></i> Level</span>
+                <div class="filter-btns" id="levelFilterMobile">
+                    <button class="filter-btn active" data-level="all">All</button>
+                    <button class="filter-btn" data-level="beginner">🟢 Beginner</button>
+                    <button class="filter-btn" data-level="intermediate">🟡 Intermediate</button>
+                    <button class="filter-btn" data-level="advanced">🔴 Advanced</button>
+                </div>
+            </div>
+
+            <div class="filter-search-mobile">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInputMobile" placeholder="Search tutorials..." />
+            </div>
+
+            <button class="apply-filters-btn" id="applyFiltersBtn">
+                <i class="fas fa-check"></i> Apply Filters
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <i class="fas fa-play-circle"></i>
+                        <span>PIXANI<span>THING</span></span>
+                    </a>
+                    <p>Empowering creators with premium knowledge, inspiration, and practical skills.</p>
+                    <div class="social-links">
+                        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="videos.html">Videos</a></li>
+                        <li><a href="tutorials.html">Tutorials</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="videos.html?cat=tutorial">Tutorials</a></li>
+                        <li><a href="videos.html?cat=vlog">Vlogs</a></li>
+                        <li><a href="videos.html?cat=review">Reviews</a></li>
+                        <li><a href="videos.html?cat=inspiration">Inspiration</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> hello@pixanithing.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> New York, USA</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 PIXANITHING. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== BACK TO TOP ===== -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script src="js/script.js"></script>
+
+    <!-- ===== PAGE-SPECIFIC JAVASCRIPT ===== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // ========================================
+            // API CONFIG
+            // ========================================
+            const API_URL = 'http://localhost:5000/api';
+
+            // ========================================
+            // DOM REFERENCES
+            // ========================================
+            const tutorialGrid = document.getElementById('tutorialGrid');
+            const filterBtns = document.querySelectorAll('#filterBar .filter-btn[data-filter]');
+            const levelBtns = document.querySelectorAll('#filterBar .filter-btn[data-level]');
+            const categoryFilterMobile = document.querySelectorAll('#categoryFilterMobile .filter-btn');
+            const levelFilterMobile = document.querySelectorAll('#levelFilterMobile .filter-btn');
+            const searchInput = document.getElementById('searchInput');
+            const searchInputMobile = document.getElementById('searchInputMobile');
+            const clearSearch = document.getElementById('clearSearch');
+            const visibleCount = document.getElementById('visibleCount');
+            const noResults = document.getElementById('noResults');
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            const loadMoreContainer = document.getElementById('loadMoreContainer');
+            const filterWrapper = document.getElementById('filterWrapper');
+            const filterFloatBtn = document.getElementById('filterFloatBtn');
+            const filterOverlay = document.getElementById('filterOverlay');
+            const closeFilterOverlay = document.getElementById('closeFilterOverlay');
+            const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+            const filterBadge = document.getElementById('filterBadge');
+
+            // Stats
+            const totalTutorials = document.getElementById('totalTutorials');
+            const beginnerCount = document.getElementById('beginnerCount');
+            const intermediateCount = document.getElementById('intermediateCount');
+            const advancedCount = document.getElementById('advancedCount');
+
+            // ========================================
+            // STATE
+            // ========================================
+            let currentCategory = 'all';
+            let currentLevel = 'all';
+            let currentSearch = '';
+            let currentPage = 1;
+            let totalPages = 1;
+            let isLoading = false;
+            let hasMore = true;
+
+            // ========================================
+            // FETCH HELPER
+            // ========================================
+            async function fetchAPI(endpoint) {
+                try {
+                    const response = await fetch(`${API_URL}${endpoint}`);
+                    const data = await response.json();
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Something went wrong');
+                    }
+                    return data;
+                } catch (error) {
+                    console.error('API Error:', error);
+                    return null;
+                }
+            }
+
+            // ========================================
+            // UPDATE STATS
+            // ========================================
+            function updateStats(tutorials) {
+                const total = tutorials.length;
+                const beginner = tutorials.filter(t => t.level === 'beginner').length;
+                const intermediate = tutorials.filter(t => t.level === 'intermediate').length;
+                const advanced = tutorials.filter(t => t.level === 'advanced').length;
+
+                totalTutorials.textContent = total;
+                beginnerCount.textContent = beginner;
+                intermediateCount.textContent = intermediate;
+                advancedCount.textContent = advanced;
+            }
+
+            // ========================================
+            // UPDATE FILTER BADGE
+            // ========================================
+            function updateFilterBadge() {
+                const total = parseInt(document.querySelector('.tutorial-count span')?.textContent || '0');
+                const visible = document.querySelectorAll('.tutorial-card:not([style*="display: none"])').length;
+                const diff = total - visible;
+
+                if (diff > 0) {
+                    filterBadge.textContent = diff;
+                    filterBadge.style.display = 'flex';
+                } else {
+                    filterBadge.style.display = 'none';
+                }
+            }
+
+            // ========================================
+            // LOAD TUTORIALS FROM API
+            // ========================================
+            async function loadTutorials(page = 1, append = false) {
+                if (isLoading) return;
+                isLoading = true;
+
+                if (!append) {
+                    currentPage = 1;
+                    hasMore = true;
+                    tutorialGrid.innerHTML = `
+                        <div class="loading-shimmer" style="height:340px;"></div>
+                        <div class="loading-shimmer" style="height:340px;"></div>
+                        <div class="loading-shimmer" style="height:340px;"></div>
+                        <div class="loading-shimmer" style="height:340px;"></div>
+                        <div class="loading-shimmer" style="height:340px;"></div>
+                        <div class="loading-shimmer" style="height:340px;"></div>
+                    `;
+                }
+
+                try {
+                    let url = `/tutorials?page=${page}&limit=9`;
+                    if (currentCategory && currentCategory !== 'all') url += `&category=${currentCategory}`;
+                    if (currentLevel && currentLevel !== 'all') url += `&level=${currentLevel}`;
+                    if (currentSearch) url += `&search=${currentSearch}`;
+
+                    const data = await fetchAPI(url);
+
+                    if (!data || !data.data) {
+                        tutorialGrid.innerHTML = `
+                            <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-secondary);">
+                                <i class="fas fa-exclamation-circle" style="font-size:48px;opacity:0.5;display:block;margin-bottom:16px;"></i>
+                                <h3>Failed to load tutorials</h3>
+                                <p>Please try again later</p>
+                            </div>
+                        `;
+                        isLoading = false;
+                        return;
+                    }
+
+                    const tutorials = data.data;
+                    totalPages = data.pagination?.pages || 1;
+                    hasMore = page < totalPages;
+
+                    // Update count
+                    visibleCount.textContent = data.pagination?.total || 0;
+
+                    // Update stats
+                    updateStats(tutorials);
+
+                    if (tutorials.length === 0) {
+                        if (!append) {
+                            tutorialGrid.innerHTML = '';
+                            noResults.classList.add('show');
+                        }
+                        loadMoreContainer.style.display = 'none';
+                        isLoading = false;
+                        return;
+                    }
+
+                    noResults.classList.remove('show');
+
+                    // Render tutorials
+                    const tutorialHTML = tutorials.map(function(tutorial, index) {
+                        const levelClass = tutorial.level;
+                        const progress = tutorial.progress || 0;
+                        return `
+                            <div class="tutorial-card" onclick="location.href='tutorial-detail.html?id=${tutorial._id}'" style="animation-delay:${index * 0.05}s">
+                                <div class="thumbnail">
+                                    <img src="${tutorial.thumbnail || 'https://via.placeholder.com/400x250'}" alt="${tutorial.title}" loading="lazy" />
+                                    <span class="duration">${tutorial.duration || '00:00'}</span>
+                                    <button class="play-btn" onclick="event.stopPropagation();">
+                                        <i class="fas fa-play"></i>
+                                    </button>
+                                    <span class="level-tag ${levelClass}">${getLevelDisplay(tutorial.level)}</span>
+                                    <span class="category-tag">${getCategoryDisplay(tutorial.category)}</span>
+                                </div>
+                                <div class="info">
+                                    <div class="top-row">
+                                        <span class="difficulty ${levelClass}">${getLevelEmoji(tutorial.level)} ${getLevelDisplay(tutorial.level)}</span>
+                                        <span class="views"><i class="fas fa-eye"></i> ${formatNumber(tutorial.views || 0)}</span>
+                                    </div>
+                                    <h3>${tutorial.title}</h3>
+                                    <p>${tutorial.description || ''}</p>
+                                    <div class="meta">
+                                        <span><i class="fas fa-calendar"></i> ${timeAgo(tutorial.publishedAt)}</span>
+                                        <span><i class="fas fa-thumbs-up"></i> ${formatNumber(tutorial.likes || 0)}</span>
+                                        <span><i class="fas fa-clock"></i> ${tutorial.duration || '00:00'}</span>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-label">
+                                            <span>Progress</span>
+                                            <span>${progress}%</span>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="fill" style="width: ${progress}%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    if (append) {
+                        tutorialGrid.insertAdjacentHTML('beforeend', tutorialHTML);
+                    } else {
+                        tutorialGrid.innerHTML = tutorialHTML;
+                    }
+
+                    // Show/hide load more
+                    if (hasMore) {
+                        loadMoreContainer.style.display = 'block';
+                        loadMoreBtn.querySelector('.btn-text').innerHTML = `<i class="fas fa-redo"></i> Load More`;
+                    } else {
+                        loadMoreContainer.style.display = 'none';
+                    }
+
+                    // Update badge
+                    updateFilterBadge();
+
+                } catch (error) {
+                    console.error('Error loading tutorials:', error);
+                }
+
+                isLoading = false;
+            }
+
+            // ========================================
+            // UTILITY FUNCTIONS
+            // ========================================
+            function formatNumber(num) {
+                if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+                if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+                return num;
+            }
+
+            function timeAgo(date) {
+                const now = new Date();
+                const past = new Date(date);
+                const diff = Math.floor((now - past) / 1000);
+
+                if (diff < 60) return 'Just now';
+                if (diff < 3600) return Math.floor(diff / 60) + ' minutes ago';
+                if (diff < 86400) return Math.floor(diff / 3600) + ' hours ago';
+                if (diff < 604800) return Math.floor(diff / 86400) + ' days ago';
+                if (diff < 2592000) return Math.floor(diff / 604800) + ' weeks ago';
+                if (diff < 31536000) return Math.floor(diff / 2592000) + ' months ago';
+                return Math.floor(diff / 31536000) + ' years ago';
+            }
+
+            function getLevelDisplay(level) {
+                const labels = { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced' };
+                return labels[level] || level;
+            }
+
+            function getLevelEmoji(level) {
+                const emojis = { beginner: '🟢', intermediate: '🟡', advanced: '🔴' };
+                return emojis[level] || '';
+            }
+
+            function getCategoryDisplay(category) {
+                const labels = {
+                    'video-editing': 'Video Editing',
+                    'motion-graphics': 'Motion Graphics',
+                    'color-grading': 'Color Grading',
+                    'audio': 'Audio',
+                    'gear': 'Gear & Setup'
+                };
+                return labels[category] || category;
+            }
+
+            // ========================================
+            // SYNC FILTERS
+            // ========================================
+            function syncFilters() {
+                // Category filters
+                filterBtns.forEach(function(btn) {
+                    btn.classList.toggle('active', btn.dataset.filter === currentCategory);
+                });
+                categoryFilterMobile.forEach(function(btn) {
+                    btn.classList.toggle('active', btn.dataset.filter === currentCategory);
+                });
+
+                // Level filters
+                levelBtns.forEach(function(btn) {
+                    btn.classList.toggle('active', btn.dataset.level === currentLevel);
+                });
+                levelFilterMobile.forEach(function(btn) {
+                    btn.classList.toggle('active', btn.dataset.level === currentLevel);
+                });
+
+                // Search
+                if (searchInput.value !== currentSearch) {
+                    searchInput.value = currentSearch;
+                }
+                if (searchInputMobile.value !== currentSearch) {
+                    searchInputMobile.value = currentSearch;
+                }
+
+                clearSearch.classList.toggle('visible', currentSearch.length > 0);
+            }
+
+            // ========================================
+            // APPLY FILTERS
+            // ========================================
+            function applyFilters() {
+                currentPage = 1;
+                syncFilters();
+                loadTutorials(1, false);
+            }
+
+            // ========================================
+            // FILTER BUTTON CLICKS (Desktop)
+            // ========================================
+            filterBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    currentCategory = this.dataset.filter;
+                    applyFilters();
+                });
+            });
+
+            levelBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    currentLevel = this.dataset.level;
+                    applyFilters();
+                });
+            });
+
+            // ========================================
+            // FILTER BUTTON CLICKS (Mobile)
+            // ========================================
+            categoryFilterMobile.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    categoryFilterMobile.forEach(function(b) { b.classList.remove('active'); });
+                    this.classList.add('active');
+                    currentCategory = this.dataset.filter;
+                    applyFilters();
+                });
+            });
+
+            levelFilterMobile.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    levelFilterMobile.forEach(function(b) { b.classList.remove('active'); });
+                    this.classList.add('active');
+                    currentLevel = this.dataset.level;
+                    applyFilters();
+                });
+            });
+
+            // ========================================
+            // SEARCH
+            // ========================================
+            searchInput.addEventListener('input', function() {
+                currentSearch = this.value;
+                applyFilters();
+            });
+
+            searchInputMobile.addEventListener('input', function() {
+                currentSearch = this.value;
+                applyFilters();
+            });
+
+            clearSearch.addEventListener('click', function() {
+                searchInput.value = '';
+                searchInputMobile.value = '';
+                currentSearch = '';
+                applyFilters();
+                searchInput.focus();
+            });
+
+            // ========================================
+            // LOAD MORE
+            // ========================================
+            loadMoreBtn.addEventListener('click', function() {
+                if (!hasMore || isLoading) return;
+                currentPage++;
+                loadTutorials(currentPage, true);
+            });
+
+            // ========================================
+            // FLOATING FILTER BUTTON
+            // ========================================
+            filterFloatBtn.addEventListener('click', function() {
+                filterOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                syncFilters();
+            });
+
+            // ========================================
+            // CLOSE FILTER OVERLAY
+            // ========================================
+            function closeFilterOverlayFunc() {
+                filterOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            closeFilterOverlay.addEventListener('click', closeFilterOverlayFunc);
+
+            filterOverlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeFilterOverlayFunc();
+                }
+            });
+
+            applyFiltersBtn.addEventListener('click', function() {
+                closeFilterOverlayFunc();
+                applyFilters();
+            });
+
+            // ========================================
+            // STICKY FILTER BAR
+            // ========================================
+            let filterBarSticky = false;
+            const filterBar = document.getElementById('filterBar');
+            const filterBarOffset = filterWrapper?.offsetTop || 0;
+
+            function handleStickyFilter() {
+                if (window.innerWidth >= 769) {
+                    const scrollY = window.scrollY;
+                    const headerHeight = document.getElementById('header')?.offsetHeight || 72;
+                    const threshold = filterBarOffset - headerHeight - 10;
+
+                    if (scrollY > threshold) {
+                        if (!filterBarSticky) {
+                            filterWrapper.classList.add('is-sticky');
+                            filterBarSticky = true;
+                        }
+                    } else {
+                        if (filterBarSticky) {
+                            filterWrapper.classList.remove('is-sticky');
+                            filterBarSticky = false;
+                        }
+                    }
+                } else {
+                    filterWrapper.classList.remove('is-sticky');
+                    filterBarSticky = false;
+                }
+            }
+
+            window.addEventListener('scroll', handleStickyFilter, { passive: true });
+            window.addEventListener('resize', handleStickyFilter, { passive: true });
+
+            // ========================================
+            // PLAY BUTTON HANDLERS
+            // ========================================
+            document.addEventListener('click', function(e) {
+                const playBtn = e.target.closest('.play-btn');
+                if (playBtn) {
+                    e.stopPropagation();
+                    const card = playBtn.closest('.tutorial-card');
+                    const title = card?.querySelector('h3')?.textContent || 'Tutorial';
+                    alert(`🎬 Playing tutorial: ${title}\n\n(This would open the video player in production)`);
+                }
+            });
+
+            // ========================================
+            // KEYBOARD SHORTCUT
+            // ========================================
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    if (window.innerWidth >= 769) {
+                        searchInput.focus();
+                    } else {
+                        filterFloatBtn.click();
+                        setTimeout(function() {
+                            searchInputMobile.focus();
+                        }, 400);
+                    }
+                }
+
+                if (e.key === 'Escape' && filterOverlay.classList.contains('active')) {
+                    closeFilterOverlayFunc();
+                }
+            });
+
+            // ========================================
+            // INITIALIZE
+            // ========================================
+            loadTutorials(1, false);
+
+            console.log('✅ Tutorials page loaded successfully!');
+
+        });
+    </script>
+
+</body>
+</html>

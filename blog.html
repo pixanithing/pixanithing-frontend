@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog - PIXANITHING</title>
+
+    <!-- ===== SEO Meta Tags ===== -->
+    <meta name="description" content="Creative insights, tips, and stories from the PIXANITHING community." />
+    <meta name="theme-color" content="#6C63FF" />
+
+    <!-- ===== Fonts & Icons ===== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+
+    <!-- ===== Custom CSS ===== -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+        /* ========================================
+           BLOG PAGE SPECIFIC STYLES
+           ======================================== */
+        .blog-page {
+            padding: 100px 0 60px;
+            background: var(--bg-primary);
+            min-height: 100vh;
+        }
+
+        .blog-header {
+            margin-bottom: 32px;
+        }
+
+        .blog-header h1 {
+            font-size: 36px;
+            font-weight: 800;
+        }
+
+        .blog-header h1 span {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .blog-header p {
+            color: var(--text-secondary);
+            font-size: 17px;
+            margin-top: 4px;
+        }
+
+        /* ===== FILTER BAR ===== */
+        .filter-wrapper {
+            position: relative;
+            margin-bottom: 32px;
+        }
+
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            transition: top 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+
+        @media (min-width: 769px) {
+            .filter-wrapper.is-sticky .filter-bar {
+                position: fixed;
+                top: 72px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: calc(100% - 40px);
+                max-width: var(--container-width);
+                z-index: 100;
+                box-shadow: var(--shadow-md);
+                background: rgba(var(--bg-card), 0.95);
+                backdrop-filter: blur(12px);
+                border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+                border-top: none;
+                animation: slideDown 0.3s ease;
+            }
+        }
+
+        .filter-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter-tab {
+            padding: 8px 20px;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-input);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 13px;
+            font-weight: 500;
+            font-family: var(--font-family);
+            white-space: nowrap;
+        }
+
+        .filter-tab:hover {
+            border-color: var(--accent-primary);
+            color: var(--text-primary);
+        }
+
+        .filter-tab.active {
+            background: var(--accent-gradient);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .filter-search {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 4px 16px 4px 18px;
+            min-width: 200px;
+            flex-shrink: 0;
+        }
+
+        .filter-search i {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .filter-search input {
+            background: none;
+            border: none;
+            padding: 10px 0;
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+            width: 100%;
+            font-family: var(--font-family);
+        }
+
+        .filter-search input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .filter-search .clear-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+        }
+
+        .filter-search .clear-btn.visible {
+            display: block;
+        }
+
+        .filter-search .clear-btn:hover {
+            color: var(--text-primary);
+        }
+
+        /* ===== FLOATING FILTER BUTTON (Mobile) ===== */
+        .filter-float-btn {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 200;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            color: #fff;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.4);
+            transition: var(--transition);
+        }
+
+        .filter-float-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(108, 99, 255, 0.5);
+        }
+
+        .filter-float-btn .badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #FF6B35;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== MOBILE FILTER OVERLAY ===== */
+        .filter-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 300;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .filter-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .filter-overlay .filter-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 28px 24px;
+            max-width: 480px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: scaleIn 0.3s ease;
+        }
+
+        .filter-overlay .filter-panel .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .filter-overlay .filter-panel .panel-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .filter-overlay .filter-panel .panel-header .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-overlay .filter-panel .panel-header .close-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .filter-overlay .filter-panel .filter-tabs-mobile {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .filter-overlay .filter-panel .filter-tabs-mobile .filter-tab {
+            flex: 1 0 auto;
+            text-align: center;
+        }
+
+        .filter-overlay .filter-panel .filter-search-mobile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 4px 16px 4px 18px;
+            margin-top: 8px;
+        }
+
+        .filter-overlay .filter-panel .filter-search-mobile i {
+            color: var(--text-muted);
+        }
+
+        .filter-overlay .filter-panel .filter-search-mobile input {
+            background: none;
+            border: none;
+            padding: 12px 0;
+            color: var(--text-primary);
+            font-size: 15px;
+            outline: none;
+            width: 100%;
+            font-family: var(--font-family);
+        }
+
+        .filter-overlay .filter-panel .filter-search-mobile input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .filter-overlay .filter-panel .apply-filters-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            background: var(--accent-gradient);
+            color: #fff;
+            border: none;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 16px;
+            font-family: var(--font-family);
+            transition: var(--transition);
+        }
+
+        .filter-overlay .filter-panel .apply-filters-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(108, 99, 255, 0.3);
+        }
+
+        /* ===== BLOG COUNT ===== */
+        .blog-count {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .blog-count span {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* ===== BLOG GRID ===== */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 28px;
+        }
+
+        .blog-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+            animation: fadeInUp 0.5s ease both;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .blog-card .image {
+            position: relative;
+            padding-top: 56.25%;
+            overflow: hidden;
+            background: var(--bg-input);
+        }
+
+        .blog-card .image img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .blog-card:hover .image img {
+            transform: scale(1.04);
+        }
+
+        .blog-card .image .category-tag {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--accent-gradient);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .blog-card .content {
+            padding: 20px 22px;
+        }
+
+        .blog-card .content .meta {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .blog-card .content .meta i {
+            margin-right: 4px;
+        }
+
+        .blog-card .content h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .blog-card .content h3 a {
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .blog-card .content h3 a:hover {
+            color: var(--accent-primary);
+        }
+
+        .blog-card .content p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 14px;
+        }
+
+        .blog-card .content .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .blog-card .content .footer .author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .blog-card .content .footer .author img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-gradient);
+        }
+
+        .blog-card .content .footer .author .name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .blog-card .content .footer .author .role {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .blog-card .content .footer .read-more {
+            color: var(--accent-primary);
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+
+        .blog-card .content .footer .read-more:hover {
+            gap: 10px;
+        }
+
+        .loading-shimmer {
+            background: var(--bg-input);
+            border-radius: var(--radius-lg);
+            min-height: 320px;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        /* ===== LOAD MORE ===== */
+        .load-more-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .load-more-container .btn {
+            padding: 14px 40px;
+        }
+
+        .load-more-container .btn .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .load-more-container .btn.loading .spinner {
+            display: inline-block;
+        }
+
+        .load-more-container .btn.loading .btn-text {
+            display: none;
+        }
+
+        /* ===== NO RESULTS ===== */
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+            grid-column: 1 / -1;
+        }
+
+        .no-results.show {
+            display: block;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .no-results i {
+            font-size: 56px;
+            color: var(--text-muted);
+            opacity: 0.4;
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .no-results h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .no-results p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+
+            .filter-tabs {
+                justify-content: center;
+            }
+
+            .filter-search {
+                width: 100%;
+                min-width: unset;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .blog-page {
+                padding: 80px 0 40px;
+            }
+
+            .blog-header h1 {
+                font-size: 28px;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .filter-bar {
+                display: none !important;
+            }
+
+            .filter-float-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .filter-overlay .filter-panel {
+                padding: 20px 16px;
+                margin: 10px;
+            }
+
+            .filter-overlay .filter-panel .filter-tabs-mobile .filter-tab {
+                font-size: 12px;
+                padding: 6px 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .blog-header h1 {
+                font-size: 22px;
+            }
+
+            .blog-card .content {
+                padding: 16px 18px;
+            }
+
+            .blog-card .content .meta {
+                font-size: 12px;
+                gap: 12px;
+            }
+
+            .blog-card .content h3 {
+                font-size: 16px;
+            }
+
+            .blog-card .content p {
+                font-size: 14px;
+            }
+
+            .blog-card .content .footer {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+
+            .filter-float-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 48px;
+                height: 48px;
+                font-size: 18px;
+            }
+
+            .filter-overlay .filter-panel {
+                padding: 16px 14px;
+            }
+
+            .filter-overlay .filter-panel .panel-header h3 {
+                font-size: 16px;
+            }
+
+            .filter-overlay .filter-panel .filter-tabs-mobile .filter-tab {
+                font-size: 11px;
+                padding: 5px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-play-circle"></i>
+                    <span>PIXANI<span>THING</span></span>
+                </a>
+
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="videos.html">Videos</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="blog.html" class="active">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <a href="login.html" class="btn-login">
+                        <i class="fas fa-user"></i> <span class="btn-text">Login</span>
+                    </a>
+                    <button class="hamburger" id="hamburger" aria-label="Menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== BLOG PAGE ===== -->
+    <section class="blog-page">
+        <div class="container">
+
+            <!-- ===== HEADER ===== -->
+            <div class="blog-header">
+                <h1>Creative <span>Blog</span></h1>
+                <p>Insights, tips, and stories from the creative community</p>
+            </div>
+
+            <!-- ===== FILTER WRAPPER ===== -->
+            <div class="filter-wrapper" id="filterWrapper">
+
+                <!-- ===== DESKTOP FILTER BAR ===== -->
+                <div class="filter-bar" id="filterBar">
+                    <div class="filter-tabs" id="filterTabs">
+                        <button class="filter-tab active" data-filter="all">All</button>
+                        <button class="filter-tab" data-filter="tips">Tips</button>
+                        <button class="filter-tab" data-filter="gear">Gear</button>
+                        <button class="filter-tab" data-filter="inspiration">Inspiration</button>
+                        <button class="filter-tab" data-filter="tutorial">Tutorials</button>
+                        <button class="filter-tab" data-filter="news">News</button>
+                    </div>
+                    <div class="filter-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search articles..." />
+                        <button class="clear-btn" id="clearSearch" aria-label="Clear search">
+                            <i class="fas fa-times-circle"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ===== BLOG COUNT ===== -->
+            <div class="blog-count">
+                Showing <span id="visibleCount">0</span> articles
+            </div>
+
+            <!-- ===== BLOG GRID ===== -->
+            <div class="blog-grid" id="blogGrid">
+                <div class="loading-shimmer" style="height:340px;"></div>
+                <div class="loading-shimmer" style="height:340px;"></div>
+                <div class="loading-shimmer" style="height:340px;"></div>
+                <div class="loading-shimmer" style="height:340px;"></div>
+                <div class="loading-shimmer" style="height:340px;"></div>
+                <div class="loading-shimmer" style="height:340px;"></div>
+            </div>
+
+            <!-- ===== NO RESULTS ===== -->
+            <div class="no-results" id="noResults">
+                <i class="fas fa-search"></i>
+                <h3>No articles found</h3>
+                <p>Try adjusting your search or filter criteria</p>
+            </div>
+
+            <!-- ===== LOAD MORE ===== -->
+            <div class="load-more-container" id="loadMoreContainer">
+                <button class="btn btn-primary" id="loadMoreBtn">
+                    <span class="spinner"></span>
+                    <span class="btn-text"><i class="fas fa-redo"></i> Load More</span>
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== FLOATING FILTER BUTTON (Mobile Only) ===== -->
+    <button class="filter-float-btn" id="filterFloatBtn" aria-label="Open filters">
+        <i class="fas fa-sliders-h"></i>
+        <span class="badge" id="filterBadge">0</span>
+    </button>
+
+    <!-- ===== MOBILE FILTER OVERLAY ===== -->
+    <div class="filter-overlay" id="filterOverlay">
+        <div class="filter-panel">
+            <div class="panel-header">
+                <h3><i class="fas fa-sliders-h" style="color:var(--accent-primary);margin-right:8px;"></i> Filters</h3>
+                <button class="close-btn" id="closeFilterOverlay">&times;</button>
+            </div>
+
+            <div class="filter-tabs-mobile" id="filterTabsMobile">
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="tips">Tips</button>
+                <button class="filter-tab" data-filter="gear">Gear</button>
+                <button class="filter-tab" data-filter="inspiration">Inspiration</button>
+                <button class="filter-tab" data-filter="tutorial">Tutorials</button>
+                <button class="filter-tab" data-filter="news">News</button>
+            </div>
+
+            <div class="filter-search-mobile">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInputMobile" placeholder="Search articles..." />
+            </div>
+
+            <button class="apply-filters-btn" id="applyFiltersBtn">
+                <i class="fas fa-check"></i> Apply Filters
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <i class="fas fa-play-circle"></i>
+                        <span>PIXANI<span>THING</span></span>
+                    </a>
+                    <p>Empowering creators with premium knowledge, inspiration, and practical skills.</p>
+                    <div class="social-links">
+                        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="videos.html">Videos</a></li>
+                        <li><a href="tutorials.html">Tutorials</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="videos.html?cat=tutorial">Tutorials</a></li>
+                        <li><a href="videos.html?cat=vlog">Vlogs</a></li>
+                        <li><a href="videos.html?cat=review">Reviews</a></li>
+                        <li><a href="videos.html?cat=inspiration">Inspiration</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> hello@pixanithing.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> New York, USA</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 PIXANITHING. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== BACK TO TOP ===== -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script src="js/script.js"></script>
+
+    <!-- ===== PAGE-SPECIFIC JAVASCRIPT ===== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // ========================================
+            // API CONFIG
+            // ========================================
+            const API_URL = 'http://localhost:5000/api';
+
+            // ========================================
+            // DOM REFERENCES
+            // ========================================
+            const blogGrid = document.getElementById('blogGrid');
+            const filterTabs = document.querySelectorAll('#filterTabs .filter-tab');
+            const filterTabsMobile = document.querySelectorAll('#filterTabsMobile .filter-tab');
+            const searchInput = document.getElementById('searchInput');
+            const searchInputMobile = document.getElementById('searchInputMobile');
+            const clearSearch = document.getElementById('clearSearch');
+            const visibleCount = document.getElementById('visibleCount');
+            const noResults = document.getElementById('noResults');
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            const loadMoreContainer = document.getElementById('loadMoreContainer');
+            const filterWrapper = document.getElementById('filterWrapper');
+            const filterFloatBtn = document.getElementById('filterFloatBtn');
+            const filterOverlay = document.getElementById('filterOverlay');
+            const closeFilterOverlay = document.getElementById('closeFilterOverlay');
+            const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+            const filterBadge = document.getElementById('filterBadge');
+
+            // ========================================
+            // STATE
+            // ========================================
+            let currentCategory = 'all';
+            let currentSearch = '';
+            let currentPage = 1;
+            let totalPages = 1;
+            let isLoading = false;
+            let hasMore = true;
+
+            // ========================================
+            // FETCH HELPER
+            // ========================================
+            async function fetchAPI(endpoint) {
+                try {
+                    const response = await fetch(`${API_URL}${endpoint}`);
+                    const data = await response.json();
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Something went wrong');
+                    }
+                    return data;
+                } catch (error) {
+                    console.error('API Error:', error);
+                    return null;
+                }
+            }
+
+            // ========================================
+            // UPDATE FILTER BADGE
+            // ========================================
+            function updateFilterBadge() {
+                const total = parseInt(document.querySelector('.blog-count span')?.textContent || '0');
+                const visible = document.querySelectorAll('.blog-card:not([style*="display: none"])').length;
+                const diff = total - visible;
+
+                if (diff > 0) {
+                    filterBadge.textContent = diff;
+                    filterBadge.style.display = 'flex';
+                } else {
+                    filterBadge.style.display = 'none';
+                }
+            }
+
+            // ========================================
+            // LOAD BLOGS FROM API
+            // ========================================
+            async function loadBlogs(page = 1, append = false) {
+                if (isLoading) return;
+                isLoading = true;
+
+                if (!append) {
+                    currentPage = 1;
+                    hasMore = true;
+                    blogGrid.innerHTML = `
+                        <div class="loading-shimmer" style="height:340px;"></div>
+                        <div class="loading-shimmer" style="height:340px;"></div>
+                        <div class="loading-shimmer" style="height:340px;"></div>
+                        <div class="loading-shimmer" style="height:340px;"></div>
+                        <div class="loading-shimmer" style="height:340px;"></div>
+                        <div class="loading-shimmer" style="height:340px;"></div>
+                    `;
+                }
+
+                try {
+                    let url = `/blogs?page=${page}&limit=6`;
+                    if (currentCategory && currentCategory !== 'all') url += `&category=${currentCategory}`;
+                    if (currentSearch) url += `&search=${currentSearch}`;
+
+                    const data = await fetchAPI(url);
+
+                    if (!data || !data.data) {
+                        blogGrid.innerHTML = `
+                            <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-secondary);">
+                                <i class="fas fa-exclamation-circle" style="font-size:48px;opacity:0.5;display:block;margin-bottom:16px;"></i>
+                                <h3>Failed to load articles</h3>
+                                <p>Please try again later</p>
+                            </div>
+                        `;
+                        isLoading = false;
+                        return;
+                    }
+
+                    const blogs = data.data;
+                    totalPages = data.pagination?.pages || 1;
+                    hasMore = page < totalPages;
+
+                    // Update count
+                    visibleCount.textContent = data.pagination?.total || 0;
+
+                    if (blogs.length === 0) {
+                        if (!append) {
+                            blogGrid.innerHTML = '';
+                            noResults.classList.add('show');
+                        }
+                        loadMoreContainer.style.display = 'none';
+                        isLoading = false;
+                        return;
+                    }
+
+                    noResults.classList.remove('show');
+
+                    // Render blogs
+                    const blogHTML = blogs.map(function(blog) {
+                        return `
+                            <div class="blog-card" onclick="location.href='blog-post.html?slug=${blog.slug}'">
+                                <div class="image">
+                                    <img src="${blog.featuredImage || 'https://via.placeholder.com/800x450'}" alt="${blog.title}" loading="lazy" />
+                                    <span class="category-tag">${getCategoryDisplay(blog.category)}</span>
+                                </div>
+                                <div class="content">
+                                    <div class="meta">
+                                        <span><i class="fas fa-user"></i> ${blog.author?.firstName || 'Admin'}</span>
+                                        <span><i class="fas fa-calendar"></i> ${formatDate(blog.publishedAt)}</span>
+                                        <span><i class="fas fa-clock"></i> ${blog.readTime || 5} min read</span>
+                                        <span><i class="fas fa-comment"></i> ${blog.comments?.length || 0}</span>
+                                    </div>
+                                    <h3><a href="blog-post.html?slug=${blog.slug}">${blog.title}</a></h3>
+                                    <p>${blog.excerpt || ''}</p>
+                                    <div class="footer">
+                                        <div class="author">
+                                            <img src="${blog.author?.avatar || 'https://ui-avatars.com/api/?name=User'}" alt="${blog.author?.firstName || 'Admin'}" />
+                                            <div>
+                                                <div class="name">${blog.author?.firstName || 'Admin'} ${blog.author?.lastName || ''}</div>
+                                                <div class="role">${blog.author?.role || 'Content Creator'}</div>
+                                            </div>
+                                        </div>
+                                        <a href="blog-post.html?slug=${blog.slug}" class="read-more">
+                                            Read More <i class="fas fa-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    if (append) {
+                        blogGrid.insertAdjacentHTML('beforeend', blogHTML);
+                    } else {
+                        blogGrid.innerHTML = blogHTML;
+                    }
+
+                    // Show/hide load more
+                    if (hasMore) {
+                        loadMoreContainer.style.display = 'block';
+                        loadMoreBtn.querySelector('.btn-text').innerHTML = `<i class="fas fa-redo"></i> Load More`;
+                    } else {
+                        loadMoreContainer.style.display = 'none';
+                    }
+
+                    // Update badge
+                    updateFilterBadge();
+
+                } catch (error) {
+                    console.error('Error loading blogs:', error);
+                }
+
+                isLoading = false;
+            }
+
+            // ========================================
+            // UTILITY FUNCTIONS
+            // ========================================
+            function getCategoryDisplay(category) {
+                const labels = {
+                    tips: 'Tips',
+                    gear: 'Gear',
+                    inspiration: 'Inspiration',
+                    tutorial: 'Tutorial',
+                    news: 'News'
+                };
+                return labels[category] || category;
+            }
+
+            function formatDate(date) {
+                return new Date(date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+
+            // ========================================
+            // SYNC FILTERS
+            // ========================================
+            function syncFilters() {
+                filterTabs.forEach(function(tab) {
+                    tab.classList.toggle('active', tab.dataset.filter === currentCategory);
+                });
+
+                filterTabsMobile.forEach(function(tab) {
+                    tab.classList.toggle('active', tab.dataset.filter === currentCategory);
+                });
+
+                if (searchInput.value !== currentSearch) {
+                    searchInput.value = currentSearch;
+                }
+                if (searchInputMobile.value !== currentSearch) {
+                    searchInputMobile.value = currentSearch;
+                }
+
+                clearSearch.classList.toggle('visible', currentSearch.length > 0);
+            }
+
+            // ========================================
+            // APPLY FILTERS
+            // ========================================
+            function applyFilters() {
+                currentPage = 1;
+                syncFilters();
+                loadBlogs(1, false);
+            }
+
+            // ========================================
+            // FILTER TAB CLICKS (Desktop)
+            // ========================================
+            filterTabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    currentCategory = this.dataset.filter;
+                    applyFilters();
+                });
+            });
+
+            // ========================================
+            // FILTER TAB CLICKS (Mobile)
+            // ========================================
+            filterTabsMobile.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    filterTabsMobile.forEach(function(t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+                    currentCategory = this.dataset.filter;
+                    applyFilters();
+                });
+            });
+
+            // ========================================
+            // SEARCH
+            // ========================================
+            searchInput.addEventListener('input', function() {
+                currentSearch = this.value;
+                applyFilters();
+            });
+
+            searchInputMobile.addEventListener('input', function() {
+                currentSearch = this.value;
+                applyFilters();
+            });
+
+            clearSearch.addEventListener('click', function() {
+                searchInput.value = '';
+                searchInputMobile.value = '';
+                currentSearch = '';
+                applyFilters();
+                searchInput.focus();
+            });
+
+            // ========================================
+            // LOAD MORE
+            // ========================================
+            loadMoreBtn.addEventListener('click', function() {
+                if (!hasMore || isLoading) return;
+                currentPage++;
+                loadBlogs(currentPage, true);
+            });
+
+            // ========================================
+            // FLOATING FILTER BUTTON
+            // ========================================
+            filterFloatBtn.addEventListener('click', function() {
+                filterOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                syncFilters();
+            });
+
+            // ========================================
+            // CLOSE FILTER OVERLAY
+            // ========================================
+            function closeFilterOverlayFunc() {
+                filterOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            closeFilterOverlay.addEventListener('click', closeFilterOverlayFunc);
+
+            filterOverlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeFilterOverlayFunc();
+                }
+            });
+
+            applyFiltersBtn.addEventListener('click', function() {
+                closeFilterOverlayFunc();
+                applyFilters();
+            });
+
+            // ========================================
+            // STICKY FILTER BAR
+            // ========================================
+            let filterBarSticky = false;
+            const filterBar = document.getElementById('filterBar');
+            const filterBarOffset = filterWrapper?.offsetTop || 0;
+
+            function handleStickyFilter() {
+                if (window.innerWidth >= 769) {
+                    const scrollY = window.scrollY;
+                    const headerHeight = document.getElementById('header')?.offsetHeight || 72;
+                    const threshold = filterBarOffset - headerHeight - 10;
+
+                    if (scrollY > threshold) {
+                        if (!filterBarSticky) {
+                            filterWrapper.classList.add('is-sticky');
+                            filterBarSticky = true;
+                        }
+                    } else {
+                        if (filterBarSticky) {
+                            filterWrapper.classList.remove('is-sticky');
+                            filterBarSticky = false;
+                        }
+                    }
+                } else {
+                    filterWrapper.classList.remove('is-sticky');
+                    filterBarSticky = false;
+                }
+            }
+
+            window.addEventListener('scroll', handleStickyFilter, { passive: true });
+            window.addEventListener('resize', handleStickyFilter, { passive: true });
+
+            // ========================================
+            // KEYBOARD SHORTCUT
+            // ========================================
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    if (window.innerWidth >= 769) {
+                        searchInput.focus();
+                    } else {
+                        filterFloatBtn.click();
+                        setTimeout(function() {
+                            searchInputMobile.focus();
+                        }, 400);
+                    }
+                }
+
+                if (e.key === 'Escape' && filterOverlay.classList.contains('active')) {
+                    closeFilterOverlayFunc();
+                }
+            });
+
+            // ========================================
+            // INITIALIZE
+            // ========================================
+            loadBlogs(1, false);
+
+            console.log('✅ Blog page loaded successfully!');
+
+        });
+    </script>
+
+</body>
+</html>

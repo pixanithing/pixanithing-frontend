@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Videos - PIXANITHING</title>
+
+    <!-- ===== SEO Meta Tags ===== -->
+    <meta name="description" content="Explore all creative videos, tutorials, and content on PIXANITHING." />
+    <meta name="theme-color" content="#6C63FF" />
+
+    <!-- ===== Fonts & Icons ===== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+
+    <!-- ===== Custom CSS ===== -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+        /* ========================================
+           VIDEOS PAGE SPECIFIC STYLES
+           ======================================== */
+        .videos-page {
+            padding: 100px 0 60px;
+            background: var(--bg-primary);
+            min-height: 100vh;
+        }
+
+        .videos-header {
+            margin-bottom: 32px;
+        }
+
+        .videos-header h1 {
+            font-size: 36px;
+            font-weight: 800;
+        }
+
+        .videos-header h1 span {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .videos-header p {
+            color: var(--text-secondary);
+            font-size: 17px;
+            margin-top: 4px;
+        }
+
+        /* ========================================
+           STICKY FILTER BAR
+           ======================================== */
+        .filter-wrapper {
+            position: relative;
+            margin-bottom: 32px;
+        }
+
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            transition: top 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+
+        @media (min-width: 769px) {
+            .filter-wrapper.is-sticky .filter-bar {
+                position: fixed;
+                top: 72px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: calc(100% - 40px);
+                max-width: var(--container-width);
+                z-index: 100;
+                box-shadow: var(--shadow-md);
+                background: rgba(var(--bg-card), 0.95);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+                border-top: none;
+                animation: slideDown 0.3s ease;
+            }
+        }
+
+        .filter-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter-tab {
+            padding: 8px 20px;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-input);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 13px;
+            font-weight: 500;
+            font-family: var(--font-family);
+            white-space: nowrap;
+        }
+
+        .filter-tab:hover {
+            border-color: var(--accent-primary);
+            color: var(--text-primary);
+        }
+
+        .filter-tab.active {
+            background: var(--accent-gradient);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .filter-search {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 4px 16px 4px 18px;
+            min-width: 200px;
+            flex-shrink: 0;
+        }
+
+        .filter-search i {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .filter-search input {
+            background: none;
+            border: none;
+            padding: 10px 0;
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+            width: 100%;
+            font-family: var(--font-family);
+        }
+
+        .filter-search input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .filter-search .clear-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+        }
+
+        .filter-search .clear-btn.visible {
+            display: block;
+        }
+
+        .filter-search .clear-btn:hover {
+            color: var(--text-primary);
+        }
+
+        /* ===== FLOATING FILTER BUTTON (Mobile) ===== */
+        .filter-float-btn {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 200;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            color: #fff;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.4);
+            transition: var(--transition);
+            font-family: var(--font-family);
+        }
+
+        .filter-float-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(108, 99, 255, 0.5);
+        }
+
+        .filter-float-btn .badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #FF6B35;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== MOBILE FILTER OVERLAY ===== */
+        .filter-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 300;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .filter-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .filter-overlay .filter-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 28px 24px;
+            max-width: 480px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: scaleIn 0.3s ease;
+        }
+
+        .filter-overlay .filter-panel .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .filter-overlay .filter-panel .panel-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .filter-overlay .filter-panel .panel-header .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-overlay .filter-panel .panel-header .close-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .filter-overlay .filter-panel .filter-tabs-mobile {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .filter-overlay .filter-panel .filter-tabs-mobile .filter-tab {
+            flex: 1 0 auto;
+            text-align: center;
+        }
+
+        .filter-overlay .filter-panel .filter-search-mobile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 4px 16px 4px 18px;
+            margin-top: 8px;
+        }
+
+        .filter-overlay .filter-panel .filter-search-mobile i {
+            color: var(--text-muted);
+        }
+
+        .filter-overlay .filter-panel .filter-search-mobile input {
+            background: none;
+            border: none;
+            padding: 12px 0;
+            color: var(--text-primary);
+            font-size: 15px;
+            outline: none;
+            width: 100%;
+            font-family: var(--font-family);
+        }
+
+        .filter-overlay .filter-panel .filter-search-mobile input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .filter-overlay .filter-panel .apply-filters-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            background: var(--accent-gradient);
+            color: #fff;
+            border: none;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 16px;
+            font-family: var(--font-family);
+            transition: var(--transition);
+        }
+
+        .filter-overlay .filter-panel .apply-filters-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(108, 99, 255, 0.3);
+        }
+
+        /* ===== VIDEO COUNT ===== */
+        .video-count {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .video-count span {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* ===== VIDEO GRID ===== */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 28px;
+        }
+
+        .video-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+            animation: fadeInUp 0.5s ease both;
+        }
+
+        .video-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .video-card .thumbnail {
+            position: relative;
+            padding-top: 56.25%;
+            overflow: hidden;
+            background: var(--bg-input);
+        }
+
+        .video-card .thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .video-card:hover .thumbnail img {
+            transform: scale(1.04);
+        }
+
+        .video-card .thumbnail .duration {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .video-card .thumbnail .play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            color: #fff;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .video-card:hover .thumbnail .play-btn {
+            opacity: 1;
+        }
+
+        .video-card .thumbnail .play-btn:hover {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-card .thumbnail .category-tag {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--accent-gradient);
+            color: #fff;
+            padding: 3px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .video-card .thumbnail .views-badge {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .video-card .info {
+            padding: 18px 20px;
+        }
+
+        .video-card .info h3 {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-card .info .meta {
+            display: flex;
+            gap: 18px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            flex-wrap: wrap;
+        }
+
+        .video-card .info .meta i {
+            margin-right: 4px;
+        }
+
+        .loading-shimmer {
+            background: var(--bg-input);
+            border-radius: var(--radius-lg);
+            padding: 0;
+            min-height: 280px;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        /* ===== LOAD MORE ===== */
+        .load-more-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .load-more-container .btn {
+            padding: 14px 40px;
+        }
+
+        .load-more-container .btn .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .load-more-container .btn.loading .spinner {
+            display: inline-block;
+        }
+
+        .load-more-container .btn.loading .btn-text {
+            display: none;
+        }
+
+        /* ===== NO RESULTS ===== */
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+            grid-column: 1 / -1;
+        }
+
+        .no-results.show {
+            display: block;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .no-results i {
+            font-size: 56px;
+            color: var(--text-muted);
+            opacity: 0.4;
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .no-results h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .no-results p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+
+            .filter-tabs {
+                justify-content: center;
+            }
+
+            .filter-search {
+                width: 100%;
+                min-width: unset;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .videos-page {
+                padding: 80px 0 40px;
+            }
+
+            .videos-header h1 {
+                font-size: 28px;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .filter-bar {
+                display: none !important;
+            }
+
+            .filter-float-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .filter-overlay .filter-panel {
+                padding: 20px 16px;
+                margin: 10px;
+            }
+
+            .filter-overlay .filter-panel .filter-tabs-mobile .filter-tab {
+                font-size: 12px;
+                padding: 6px 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .videos-header h1 {
+                font-size: 22px;
+            }
+
+            .video-card .info h3 {
+                font-size: 15px;
+            }
+
+            .video-card .info .meta {
+                font-size: 12px;
+                gap: 12px;
+            }
+
+            .filter-float-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 48px;
+                height: 48px;
+                font-size: 18px;
+            }
+
+            .filter-overlay .filter-panel {
+                padding: 16px 14px;
+            }
+
+            .filter-overlay .filter-panel .panel-header h3 {
+                font-size: 16px;
+            }
+
+            .filter-overlay .filter-panel .filter-tabs-mobile .filter-tab {
+                font-size: 11px;
+                padding: 5px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-play-circle"></i>
+                    <span>PIXANI<span>THING</span></span>
+                </a>
+
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="videos.html" class="active">Videos</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <a href="login.html" class="btn-login">
+                        <i class="fas fa-user"></i> <span class="btn-text">Login</span>
+                    </a>
+                    <button class="hamburger" id="hamburger" aria-label="Menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== VIDEOS PAGE ===== -->
+    <section class="videos-page">
+        <div class="container">
+
+            <!-- ===== HEADER ===== -->
+            <div class="videos-header">
+                <h1>All <span>Videos</span></h1>
+                <p>Explore our complete collection of creative content and tutorials</p>
+            </div>
+
+            <!-- ===== FILTER WRAPPER ===== -->
+            <div class="filter-wrapper" id="filterWrapper">
+
+                <!-- ===== DESKTOP FILTER BAR ===== -->
+                <div class="filter-bar" id="filterBar">
+                    <div class="filter-tabs" id="filterTabs">
+                        <button class="filter-tab active" data-filter="all">All</button>
+                        <button class="filter-tab" data-filter="tutorial">Tutorials</button>
+                        <button class="filter-tab" data-filter="vlog">Vlogs</button>
+                        <button class="filter-tab" data-filter="review">Reviews</button>
+                        <button class="filter-tab" data-filter="inspiration">Inspiration</button>
+                        <button class="filter-tab" data-filter="bts">Behind the Scenes</button>
+                    </div>
+                    <div class="filter-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search videos..." />
+                        <button class="clear-btn" id="clearSearch" aria-label="Clear search">
+                            <i class="fas fa-times-circle"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ===== VIDEO COUNT ===== -->
+            <div class="video-count">
+                Showing <span id="visibleCount">0</span> videos
+            </div>
+
+            <!-- ===== VIDEO GRID ===== -->
+            <div class="video-grid" id="videoGrid">
+                <!-- Videos will be loaded dynamically via API -->
+                <div class="loading-shimmer" style="height:280px;"></div>
+                <div class="loading-shimmer" style="height:280px;"></div>
+                <div class="loading-shimmer" style="height:280px;"></div>
+                <div class="loading-shimmer" style="height:280px;"></div>
+                <div class="loading-shimmer" style="height:280px;"></div>
+                <div class="loading-shimmer" style="height:280px;"></div>
+            </div>
+
+            <!-- ===== NO RESULTS ===== -->
+            <div class="no-results" id="noResults">
+                <i class="fas fa-search"></i>
+                <h3>No videos found</h3>
+                <p>Try adjusting your search or filter criteria</p>
+            </div>
+
+            <!-- ===== LOAD MORE ===== -->
+            <div class="load-more-container" id="loadMoreContainer">
+                <button class="btn btn-primary" id="loadMoreBtn">
+                    <span class="spinner"></span>
+                    <span class="btn-text"><i class="fas fa-redo"></i> Load More</span>
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== FLOATING FILTER BUTTON (Mobile Only) ===== -->
+    <button class="filter-float-btn" id="filterFloatBtn" aria-label="Open filters">
+        <i class="fas fa-sliders-h"></i>
+        <span class="badge" id="filterBadge">0</span>
+    </button>
+
+    <!-- ===== MOBILE FILTER OVERLAY ===== -->
+    <div class="filter-overlay" id="filterOverlay">
+        <div class="filter-panel">
+            <div class="panel-header">
+                <h3><i class="fas fa-sliders-h" style="color:var(--accent-primary);margin-right:8px;"></i> Filters</h3>
+                <button class="close-btn" id="closeFilterOverlay">&times;</button>
+            </div>
+
+            <div class="filter-tabs-mobile" id="filterTabsMobile">
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="tutorial">Tutorials</button>
+                <button class="filter-tab" data-filter="vlog">Vlogs</button>
+                <button class="filter-tab" data-filter="review">Reviews</button>
+                <button class="filter-tab" data-filter="inspiration">Inspiration</button>
+                <button class="filter-tab" data-filter="bts">Behind the Scenes</button>
+            </div>
+
+            <div class="filter-search-mobile">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInputMobile" placeholder="Search videos..." />
+            </div>
+
+            <button class="apply-filters-btn" id="applyFiltersBtn">
+                <i class="fas fa-check"></i> Apply Filters
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <i class="fas fa-play-circle"></i>
+                        <span>PIXANI<span>THING</span></span>
+                    </a>
+                    <p>Empowering creators with premium knowledge, inspiration, and practical skills.</p>
+                    <div class="social-links">
+                        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="videos.html">Videos</a></li>
+                        <li><a href="tutorials.html">Tutorials</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="videos.html?cat=tutorial">Tutorials</a></li>
+                        <li><a href="videos.html?cat=vlog">Vlogs</a></li>
+                        <li><a href="videos.html?cat=review">Reviews</a></li>
+                        <li><a href="videos.html?cat=inspiration">Inspiration</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> hello@pixanithing.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> New York, USA</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 PIXANITHING. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== BACK TO TOP ===== -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script src="js/script.js"></script>
+
+    <!-- ===== PAGE-SPECIFIC JAVASCRIPT ===== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // ========================================
+            // API CONFIG
+            // ========================================
+            const API_URL = 'http://localhost:5000/api';
+
+            // ========================================
+            // DOM REFERENCES
+            // ========================================
+            const videoGrid = document.getElementById('videoGrid');
+            const filterTabs = document.querySelectorAll('#filterTabs .filter-tab');
+            const filterTabsMobile = document.querySelectorAll('#filterTabsMobile .filter-tab');
+            const searchInput = document.getElementById('searchInput');
+            const searchInputMobile = document.getElementById('searchInputMobile');
+            const clearSearch = document.getElementById('clearSearch');
+            const visibleCount = document.getElementById('visibleCount');
+            const noResults = document.getElementById('noResults');
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            const loadMoreContainer = document.getElementById('loadMoreContainer');
+            const filterWrapper = document.getElementById('filterWrapper');
+            const filterFloatBtn = document.getElementById('filterFloatBtn');
+            const filterOverlay = document.getElementById('filterOverlay');
+            const closeFilterOverlay = document.getElementById('closeFilterOverlay');
+            const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+            const filterBadge = document.getElementById('filterBadge');
+
+            // ========================================
+            // STATE
+            // ========================================
+            let currentFilter = 'all';
+            let currentSearch = '';
+            let currentPage = 1;
+            let totalPages = 1;
+            let isLoading = false;
+            let hasMore = true;
+
+            // ========================================
+            // FETCH HELPER
+            // ========================================
+            async function fetchAPI(endpoint) {
+                try {
+                    const response = await fetch(`${API_URL}${endpoint}`);
+                    const data = await response.json();
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Something went wrong');
+                    }
+                    return data;
+                } catch (error) {
+                    console.error('API Error:', error);
+                    return null;
+                }
+            }
+
+            // ========================================
+            // UPDATE FILTER BADGE
+            // ========================================
+            function updateFilterBadge() {
+                const totalVideos = parseInt(document.querySelector('.video-count span')?.textContent || '0');
+                const visibleVideos = document.querySelectorAll('.video-card:not([style*="display: none"])').length;
+                const diff = totalVideos - visibleVideos;
+
+                if (diff > 0) {
+                    filterBadge.textContent = diff;
+                    filterBadge.style.display = 'flex';
+                } else {
+                    filterBadge.style.display = 'none';
+                }
+            }
+
+            // ========================================
+            // LOAD VIDEOS FROM API
+            // ========================================
+            async function loadVideos(page = 1, append = false) {
+                if (isLoading) return;
+                isLoading = true;
+
+                if (!append) {
+                    currentPage = 1;
+                    hasMore = true;
+                    videoGrid.innerHTML = `
+                        <div class="loading-shimmer" style="height:280px;"></div>
+                        <div class="loading-shimmer" style="height:280px;"></div>
+                        <div class="loading-shimmer" style="height:280px;"></div>
+                        <div class="loading-shimmer" style="height:280px;"></div>
+                        <div class="loading-shimmer" style="height:280px;"></div>
+                        <div class="loading-shimmer" style="height:280px;"></div>
+                    `;
+                }
+
+                try {
+                    let url = `/videos?page=${page}&limit=12`;
+                    if (currentFilter && currentFilter !== 'all') url += `&category=${currentFilter}`;
+                    if (currentSearch) url += `&search=${currentSearch}`;
+
+                    const data = await fetchAPI(url);
+
+                    if (!data || !data.data) {
+                        videoGrid.innerHTML = `
+                            <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-secondary);">
+                                <i class="fas fa-exclamation-circle" style="font-size:48px;opacity:0.5;display:block;margin-bottom:16px;"></i>
+                                <h3>Failed to load videos</h3>
+                                <p>Please try again later</p>
+                            </div>
+                        `;
+                        isLoading = false;
+                        return;
+                    }
+
+                    const videos = data.data;
+                    totalPages = data.pagination?.pages || 1;
+                    hasMore = page < totalPages;
+
+                    // Update count
+                    visibleCount.textContent = data.pagination?.total || 0;
+
+                    if (videos.length === 0) {
+                        if (!append) {
+                            videoGrid.innerHTML = '';
+                            noResults.classList.add('show');
+                        }
+                        loadMoreContainer.style.display = 'none';
+                        isLoading = false;
+                        return;
+                    }
+
+                    noResults.classList.remove('show');
+
+                    // Render videos
+                    const videoHTML = videos.map(function(video) {
+                        return `
+                            <div class="video-card" onclick="location.href='video-detail.html?id=${video._id}'">
+                                <div class="thumbnail">
+                                    <img src="${video.thumbnail || 'https://via.placeholder.com/400x250'}" alt="${video.title}" loading="lazy" />
+                                    <span class="duration">${video.duration || '00:00'}</span>
+                                    <button class="play-btn" onclick="event.stopPropagation();">
+                                        <i class="fas fa-play"></i>
+                                    </button>
+                                    <span class="category-tag">${video.category}</span>
+                                    <span class="views-badge"><i class="fas fa-eye"></i> ${formatNumber(video.views || 0)}</span>
+                                </div>
+                                <div class="info">
+                                    <h3>${video.title}</h3>
+                                    <div class="meta">
+                                        <span><i class="fas fa-calendar"></i> ${timeAgo(video.publishedAt)}</span>
+                                        <span><i class="fas fa-thumbs-up"></i> ${formatNumber(video.likes || 0)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    if (append) {
+                        videoGrid.insertAdjacentHTML('beforeend', videoHTML);
+                    } else {
+                        videoGrid.innerHTML = videoHTML;
+                    }
+
+                    // Show/hide load more
+                    if (hasMore) {
+                        loadMoreContainer.style.display = 'block';
+                        loadMoreBtn.querySelector('.btn-text').innerHTML = `<i class="fas fa-redo"></i> Load More`;
+                    } else {
+                        loadMoreContainer.style.display = 'none';
+                    }
+
+                    // Update badge
+                    updateFilterBadge();
+
+                } catch (error) {
+                    console.error('Error loading videos:', error);
+                    if (!append) {
+                        videoGrid.innerHTML = `
+                            <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-secondary);">
+                                <i class="fas fa-exclamation-circle" style="font-size:48px;opacity:0.5;display:block;margin-bottom:16px;"></i>
+                                <h3>Failed to load videos</h3>
+                                <p>Please try again later</p>
+                            </div>
+                        `;
+                    }
+                }
+
+                isLoading = false;
+            }
+
+            // ========================================
+            // UTILITY FUNCTIONS
+            // ========================================
+            function formatNumber(num) {
+                if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+                if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+                return num;
+            }
+
+            function timeAgo(date) {
+                const now = new Date();
+                const past = new Date(date);
+                const diff = Math.floor((now - past) / 1000);
+
+                if (diff < 60) return 'Just now';
+                if (diff < 3600) return Math.floor(diff / 60) + ' minutes ago';
+                if (diff < 86400) return Math.floor(diff / 3600) + ' hours ago';
+                if (diff < 604800) return Math.floor(diff / 86400) + ' days ago';
+                if (diff < 2592000) return Math.floor(diff / 604800) + ' weeks ago';
+                if (diff < 31536000) return Math.floor(diff / 2592000) + ' months ago';
+                return Math.floor(diff / 31536000) + ' years ago';
+            }
+
+            // ========================================
+            // SYNC FILTERS
+            // ========================================
+            function syncFilters() {
+                filterTabs.forEach(function(tab) {
+                    tab.classList.toggle('active', tab.dataset.filter === currentFilter);
+                });
+
+                filterTabsMobile.forEach(function(tab) {
+                    tab.classList.toggle('active', tab.dataset.filter === currentFilter);
+                });
+
+                if (searchInput.value !== currentSearch) {
+                    searchInput.value = currentSearch;
+                }
+                if (searchInputMobile.value !== currentSearch) {
+                    searchInputMobile.value = currentSearch;
+                }
+
+                clearSearch.classList.toggle('visible', currentSearch.length > 0);
+            }
+
+            // ========================================
+            // APPLY FILTERS
+            // ========================================
+            function applyFilters() {
+                currentPage = 1;
+                syncFilters();
+                loadVideos(1, false);
+            }
+
+            // ========================================
+            // FILTER TAB CLICKS (Desktop)
+            // ========================================
+            filterTabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    currentFilter = this.dataset.filter;
+                    applyFilters();
+                });
+            });
+
+            // ========================================
+            // FILTER TAB CLICKS (Mobile)
+            // ========================================
+            filterTabsMobile.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    filterTabsMobile.forEach(function(t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+                    currentFilter = this.dataset.filter;
+                    applyFilters();
+                });
+            });
+
+            // ========================================
+            // SEARCH
+            // ========================================
+            searchInput.addEventListener('input', function() {
+                currentSearch = this.value;
+                applyFilters();
+            });
+
+            searchInputMobile.addEventListener('input', function() {
+                currentSearch = this.value;
+                applyFilters();
+            });
+
+            clearSearch.addEventListener('click', function() {
+                searchInput.value = '';
+                searchInputMobile.value = '';
+                currentSearch = '';
+                applyFilters();
+                searchInput.focus();
+            });
+
+            // ========================================
+            // LOAD MORE
+            // ========================================
+            loadMoreBtn.addEventListener('click', function() {
+                if (!hasMore || isLoading) return;
+                currentPage++;
+                loadVideos(currentPage, true);
+            });
+
+            // ========================================
+            // FLOATING FILTER BUTTON
+            // ========================================
+            filterFloatBtn.addEventListener('click', function() {
+                filterOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                syncFilters();
+            });
+
+            // ========================================
+            // CLOSE FILTER OVERLAY
+            // ========================================
+            function closeFilterOverlayFunc() {
+                filterOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            closeFilterOverlay.addEventListener('click', closeFilterOverlayFunc);
+
+            filterOverlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeFilterOverlayFunc();
+                }
+            });
+
+            applyFiltersBtn.addEventListener('click', function() {
+                closeFilterOverlayFunc();
+                applyFilters();
+            });
+
+            // ========================================
+            // STICKY FILTER BAR
+            // ========================================
+            let filterBarSticky = false;
+            const filterBar = document.getElementById('filterBar');
+            const filterBarOffset = filterWrapper?.offsetTop || 0;
+
+            function handleStickyFilter() {
+                if (window.innerWidth >= 769) {
+                    const scrollY = window.scrollY;
+                    const headerHeight = document.getElementById('header')?.offsetHeight || 72;
+                    const threshold = filterBarOffset - headerHeight - 10;
+
+                    if (scrollY > threshold) {
+                        if (!filterBarSticky) {
+                            filterWrapper.classList.add('is-sticky');
+                            filterBarSticky = true;
+                        }
+                    } else {
+                        if (filterBarSticky) {
+                            filterWrapper.classList.remove('is-sticky');
+                            filterBarSticky = false;
+                        }
+                    }
+                } else {
+                    filterWrapper.classList.remove('is-sticky');
+                    filterBarSticky = false;
+                }
+            }
+
+            window.addEventListener('scroll', handleStickyFilter, { passive: true });
+            window.addEventListener('resize', handleStickyFilter, { passive: true });
+
+            // ========================================
+            // PLAY BUTTON HANDLERS
+            // ========================================
+            document.addEventListener('click', function(e) {
+                const playBtn = e.target.closest('.play-btn');
+                if (playBtn) {
+                    e.stopPropagation();
+                    const card = playBtn.closest('.video-card');
+                    const title = card?.querySelector('h3')?.textContent || 'Video';
+                    alert(`🎬 Playing: ${title}\n\n(This would open the video player in production)`);
+                }
+            });
+
+            // ========================================
+            // KEYBOARD SHORTCUT
+            // ========================================
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    if (window.innerWidth >= 769) {
+                        searchInput.focus();
+                    } else {
+                        filterFloatBtn.click();
+                        setTimeout(function() {
+                            searchInputMobile.focus();
+                        }, 400);
+                    }
+                }
+
+                if (e.key === 'Escape' && filterOverlay.classList.contains('active')) {
+                    closeFilterOverlayFunc();
+                }
+            });
+
+            // ========================================
+            // URL PARAMETER SUPPORT
+            // ========================================
+            function handleUrlParams() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const category = urlParams.get('cat');
+                const search = urlParams.get('search');
+
+                if (category) {
+                    currentFilter = category;
+                }
+
+                if (search) {
+                    currentSearch = search;
+                    searchInput.value = search;
+                    searchInputMobile.value = search;
+                    clearSearch.classList.add('visible');
+                }
+
+                syncFilters();
+                loadVideos(1, false);
+            }
+
+            // ========================================
+            // INITIALIZE
+            // ========================================
+            handleUrlParams();
+
+            console.log('✅ Videos page loaded successfully!');
+
+        });
+    </script>
+
+</body>
+</html>

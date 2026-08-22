@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About - PIXANITHING</title>
+
+    <!-- ===== SEO Meta Tags ===== -->
+    <meta name="description" content="Learn about PIXANITHING - our mission, vision, and the creative community we're building." />
+    <meta name="theme-color" content="#6C63FF" />
+
+    <!-- ===== Fonts & Icons ===== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+
+    <!-- ===== Custom CSS ===== -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+        /* ===== ABOUT PAGE SPECIFIC STYLES ===== */
+        .about-page {
+            padding: 100px 0 60px;
+            background: var(--bg-primary);
+            min-height: 100vh;
+        }
+
+        /* ===== ABOUT HERO ===== */
+        .about-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .about-hero .image {
+            position: relative;
+        }
+
+        .about-hero .image img {
+            width: 100%;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            object-fit: cover;
+            height: 450px;
+        }
+
+        .about-hero .image .floating-badge {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            background: var(--accent-gradient);
+            color: #fff;
+            padding: 20px 28px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .about-hero .image .floating-badge .number {
+            font-size: 32px;
+            font-weight: 800;
+            display: block;
+        }
+
+        .about-hero .image .floating-badge .label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .about-hero .text .badge {
+            display: inline-block;
+            background: rgba(108, 99, 255, 0.08);
+            border: 1px solid rgba(108, 99, 255, 0.12);
+            padding: 4px 16px;
+            border-radius: 50px;
+            font-size: 13px;
+            color: var(--accent-primary);
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .about-hero .text h1 {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .about-hero .text h1 span {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-hero .text p {
+            color: var(--text-secondary);
+            font-size: 17px;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .about-hero .text .tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .about-hero .text .tags span {
+            padding: 6px 16px;
+            border-radius: 50px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .about-hero .text .tags span i {
+            color: var(--accent-primary);
+        }
+
+        /* ===== STATS ===== */
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 60px;
+        }
+
+        .about-stats .stat-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .about-stats .stat-item .number {
+            font-size: 36px;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .about-stats .stat-item .label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .about-stats .stat-item .icon {
+            font-size: 28px;
+            color: var(--accent-primary);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        /* ===== MISSION & VISION ===== */
+        .mission-vision {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .mission-vision .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            transition: var(--transition);
+        }
+
+        .mission-vision .card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-4px);
+        }
+
+        .mission-vision .card .icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background: rgba(108, 99, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--accent-primary);
+            margin-bottom: 16px;
+        }
+
+        .mission-vision .card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .mission-vision .card p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* ===== TEAM ===== */
+        .team-section {
+            margin-bottom: 60px;
+        }
+
+        .team-section .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 24px;
+        }
+
+        .team-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .team-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-4px);
+        }
+
+        .team-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-gradient);
+            margin: 0 auto 12px;
+        }
+
+        .team-card h4 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .team-card .role {
+            font-size: 13px;
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+
+        .team-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline-section {
+            margin-bottom: 60px;
+        }
+
+        .timeline-section .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--accent-gradient);
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 36px;
+            padding-left: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -31px;
+            top: 6px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            border: 3px solid var(--bg-primary);
+            box-shadow: 0 0 0 4px var(--accent-primary);
+        }
+
+        .timeline-item .year {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--accent-primary);
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .timeline-item h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .timeline-item p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* ===== CTA ===== */
+        .cta-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 48px 40px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .cta-section h2 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .cta-section h2 span {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-section p {
+            color: var(--text-secondary);
+            font-size: 17px;
+            max-width: 500px;
+            margin: 0 auto 24px;
+        }
+
+        .cta-section .cta-buttons {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .about-hero {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .about-hero .image img {
+                height: 350px;
+            }
+
+            .about-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .mission-vision {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-page {
+                padding: 80px 0 40px;
+            }
+
+            .about-hero .text h1 {
+                font-size: 30px;
+            }
+
+            .about-hero .image img {
+                height: 280px;
+            }
+
+            .about-hero .image .floating-badge {
+                bottom: -10px;
+                right: -10px;
+                padding: 14px 20px;
+            }
+
+            .about-hero .image .floating-badge .number {
+                font-size: 24px;
+            }
+
+            .about-stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+                padding: 24px 0;
+            }
+
+            .about-stats .stat-item .number {
+                font-size: 28px;
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .timeline {
+                padding-left: 20px;
+            }
+
+            .timeline-item {
+                padding-left: 20px;
+            }
+
+            .timeline-item::before {
+                left: -21px;
+                width: 12px;
+                height: 12px;
+            }
+
+            .cta-section {
+                padding: 32px 20px;
+            }
+
+            .cta-section h2 {
+                font-size: 22px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .about-hero .text h1 {
+                font-size: 24px;
+            }
+
+            .about-hero .text p {
+                font-size: 15px;
+            }
+
+            .about-stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .about-stats .stat-item {
+                padding: 12px;
+            }
+
+            .about-stats .stat-item .number {
+                font-size: 22px;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-section .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-section .cta-buttons .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .about-hero .image .floating-badge {
+                position: relative;
+                bottom: 0;
+                right: 0;
+                margin-top: 16px;
+                display: inline-block;
+            }
+
+            .about-hero .image {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-play-circle"></i>
+                    <span>PIXANI<span>THING</span></span>
+                </a>
+
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="videos.html">Videos</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about.html" class="active">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <a href="login.html" class="btn-login">
+                        <i class="fas fa-user"></i> <span class="btn-text">Login</span>
+                    </a>
+                    <button class="hamburger" id="hamburger" aria-label="Menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== ABOUT PAGE ===== -->
+    <section class="about-page">
+        <div class="container">
+
+            <!-- ===== ABOUT HERO ===== -->
+            <div class="about-hero">
+                <div class="image">
+                    <img src="https://picsum.photos/seed/studio/800/600" alt="PIXANITHING Studio" loading="lazy" />
+                    <div class="floating-badge">
+                        <span class="number">5+</span>
+                        <span class="label">Years of Excellence</span>
+                    </div>
+                </div>
+                <div class="text">
+                    <div class="badge"><i class="fas fa-play-circle"></i> About Us</div>
+                    <h1>We're <span>PIXANITHING</span></h1>
+                    <p>
+                        PIXANITHING is a creative hub dedicated to empowering creators, videographers,
+                        and designers with premium knowledge, inspiration, and practical skills.
+                    </p>
+                    <p>
+                        Founded in 2020, we've grown from a small YouTube channel to a thriving community
+                        of over 150,000 creators worldwide. Our mission is to make professional creative
+                        education accessible to everyone.
+                    </p>
+                    <div class="tags">
+                        <span><i class="fas fa-video"></i> Video Editing</span>
+                        <span><i class="fas fa-magic"></i> Motion Graphics</span>
+                        <span><i class="fas fa-palette"></i> Color Grading</span>
+                        <span><i class="fas fa-users"></i> Community</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== STATS ===== -->
+            <div class="about-stats">
+                <div class="stat-item">
+                    <span class="icon"><i class="fas fa-play-circle"></i></span>
+                    <span class="number" data-count="250">0</span>
+                    <span class="label">Videos Created</span>
+                </div>
+                <div class="stat-item">
+                    <span class="icon"><i class="fas fa-users"></i></span>
+                    <span class="number" data-count="150000">0</span>
+                    <span class="label">Community Members</span>
+                </div>
+                <div class="stat-item">
+                    <span class="icon"><i class="fas fa-eye"></i></span>
+                    <span class="number" data-count="8000000">0</span>
+                    <span class="label">Total Views</span>
+                </div>
+                <div class="stat-item">
+                    <span class="icon"><i class="fas fa-clock"></i></span>
+                    <span class="number" data-count="1200">0</span>
+                    <span class="label">Hours of Content</span>
+                </div>
+            </div>
+
+            <!-- ===== MISSION & VISION ===== -->
+            <div class="mission-vision">
+                <div class="card">
+                    <div class="icon"><i class="fas fa-bullseye"></i></div>
+                    <h3>Our Mission</h3>
+                    <p>
+                        To democratize creative education by providing high-quality, accessible
+                        tutorials and resources that help creators of all levels develop their skills
+                        and build successful careers.
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="icon"><i class="fas fa-eye"></i></div>
+                    <h3>Our Vision</h3>
+                    <p>
+                        To build the world's largest and most supportive creative community where
+                        every creator can find the knowledge, inspiration, and tools they need to
+                        bring their creative vision to life.
+                    </p>
+                </div>
+            </div>
+
+            <!-- ===== TEAM ===== -->
+            <div class="team-section">
+                <div class="section-header">
+                    <h2 class="section-title">Meet the <span>Team</span></h2>
+                    <p class="section-subtitle">The creative minds behind PIXANITHING</p>
+                </div>
+                <div class="team-grid">
+                    <div class="team-card">
+                        <img src="https://picsum.photos/seed/team1/200/200" alt="Team Member" loading="lazy" />
+                        <h4>Alex Johnson</h4>
+                        <div class="role">Founder & Creative Director</div>
+                        <p>Video editor and educator with 8+ years of experience.</p>
+                    </div>
+                    <div class="team-card">
+                        <img src="https://picsum.photos/seed/team2/200/200" alt="Team Member" loading="lazy" />
+                        <h4>Sarah Miller</h4>
+                        <div class="role">Lead Editor</div>
+                        <p>Motion graphics specialist and color grading expert.</p>
+                    </div>
+                    <div class="team-card">
+                        <img src="https://picsum.photos/seed/team3/200/200" alt="Team Member" loading="lazy" />
+                        <h4>Mike Chen</h4>
+                        <div class="role">Content Strategist</div>
+                        <p>Storytelling expert and YouTube growth specialist.</p>
+                    </div>
+                    <div class="team-card">
+                        <img src="https://picsum.photos/seed/team4/200/200" alt="Team Member" loading="lazy" />
+                        <h4>Priya Sharma</h4>
+                        <div class="role">Community Manager</div>
+                        <p>Passionate about building creative communities.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== TIMELINE ===== -->
+            <div class="timeline-section">
+                <div class="section-header">
+                    <h2 class="section-title">Our <span>Journey</span></h2>
+                    <p class="section-subtitle">The story of PIXANITHING so far</p>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="year">2020</span>
+                        <h3>🎬 The Beginning</h3>
+                        <p>Launched PIXANITHING with a mission to help creators learn video editing and content creation skills.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="year">2021</span>
+                        <h3>📈 First 10K</h3>
+                        <p>Reached 10,000 subscribers and started gaining recognition in the creator community.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="year">2022</span>
+                        <h3>🎯 100K Milestone</h3>
+                        <p>Hit 100,000 subscribers and expanded content to include gear reviews and behind-the-scenes.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="year">2023</span>
+                        <h3>🌍 Global Recognition</h3>
+                        <p>Collaborated with major brands and reached 500,000 subscribers.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="year">2024</span>
+                        <h3>🚀 PIXANITHING Website</h3>
+                        <p>Launched this website to provide a central hub for all creative content and resources.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="year">2025 - Present</span>
+                        <h3>💡 Community First</h3>
+                        <p>Focusing on building the world's most supportive creative community.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== CTA ===== -->
+            <div class="cta-section">
+                <h2>Ready to Join the <span>Community</span>?</h2>
+                <p>Subscribe to PIXANITHING and start your creative journey today.</p>
+                <div class="cta-buttons">
+                    <a href="https://youtube.com" target="_blank" class="btn btn-primary">
+                        <i class="fab fa-youtube"></i> Subscribe Now
+                    </a>
+                    <a href="contact.html" class="btn btn-secondary">
+                        <i class="fas fa-envelope"></i> Get in Touch
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <i class="fas fa-play-circle"></i>
+                        <span>PIXANI<span>THING</span></span>
+                    </a>
+                    <p>Empowering creators with premium knowledge, inspiration, and practical skills.</p>
+                    <div class="social-links">
+                        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="videos.html">Videos</a></li>
+                        <li><a href="tutorials.html">Tutorials</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="videos.html?cat=tutorial">Tutorials</a></li>
+                        <li><a href="videos.html?cat=vlog">Vlogs</a></li>
+                        <li><a href="videos.html?cat=review">Reviews</a></li>
+                        <li><a href="videos.html?cat=inspiration">Inspiration</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> hello@pixanithing.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> New York, USA</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 PIXANITHING. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== BACK TO TOP ===== -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script src="js/script.js"></script>
+
+    <!-- ===== PAGE-SPECIFIC JAVASCRIPT ===== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // ========================================
+            // COUNTER ANIMATION
+            // ========================================
+            const stats = document.querySelectorAll('.about-stats .stat-item .number');
+            let animated = false;
+
+            function animateCounters() {
+                if (animated) return;
+
+                stats.forEach(function(stat) {
+                    const target = parseInt(stat.getAttribute('data-count'));
+                    const duration = 2000;
+                    const increment = target / (duration / 16);
+                    let current = 0;
+
+                    const updateCounter = function() {
+                        current += increment;
+                        if (current < target) {
+                            stat.textContent = Math.round(current).toLocaleString();
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            stat.textContent = target.toLocaleString();
+                        }
+                    };
+                    updateCounter();
+                });
+                animated = true;
+            }
+
+            if ('IntersectionObserver' in window) {
+                const statsSection = document.querySelector('.about-stats');
+                if (statsSection) {
+                    const observer = new IntersectionObserver(function(entries) {
+                        entries.forEach(function(entry) {
+                            if (entry.isIntersecting) {
+                                animateCounters();
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    }, { threshold: 0.3 });
+                    observer.observe(statsSection);
+                }
+            }
+
+            console.log('✅ About page loaded successfully!');
+
+        });
+    </script>
+
+</body>
+</html>
