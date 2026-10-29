@@ -1,0 +1,170 @@
+/* ============================================
+   WhatsApp Floating Button — Professional CSS
+   ============================================ */
+
+/* --- Design Tokens (Customize Here) --- */
+:root {
+  --wa-green: #25D366;
+  --wa-green-dark: #128C7E;
+  --wa-white: #ffffff;
+  --wa-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+  --wa-shadow-hover: 0 12px 32px rgba(37, 211, 102, 0.5);
+  --wa-radius-pill: 999px;
+  --wa-radius-circle: 50%;
+  --wa-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --wa-z-index: 9999;
+}
+
+/* --- Wrapper Position --- */
+.wa-float-wrapper {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: var(--wa-z-index);
+  font-family: var(--wa-font);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* --- Base Button (Desktop = Pill/Rectangle) --- */
+.wa-float-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 56px;
+  padding: 0 24px;
+  border-radius: var(--wa-radius-pill);
+  background: var(--wa-green);
+  color: var(--wa-white);
+  text-decoration: none;
+  box-shadow: var(--wa-shadow);
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.3s ease,
+              background-color 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wa-float-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: var(--wa-shadow-hover);
+  background: var(--wa-green-dark);
+}
+
+.wa-float-btn:focus-visible {
+  outline: 3px solid var(--wa-green-dark);
+  outline-offset: 4px;
+}
+
+.wa-float-btn:active {
+  transform: scale(0.97);
+}
+
+/* --- Icon --- */
+.wa-icon {
+  width: 28px;
+  height: 28px;
+  fill: currentColor;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.wa-float-btn:hover .wa-icon {
+  transform: rotate(-8deg) scale(1.1);
+}
+
+/* --- Label (Desktop) --- */
+.wa-label {
+  color: var(--wa-white);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* --- Pulse Rings --- */
+.wa-pulse-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--wa-green);
+  opacity: 0.55;
+  z-index: -1;
+  animation: wa-pulse 2.2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+  pointer-events: none;
+}
+
+.wa-pulse-ring:nth-child(2) {
+  animation-delay: 0.6s;
+}
+
+@keyframes wa-pulse {
+  0%   { transform: scale(1);   opacity: 0.55; }
+  70%  { transform: scale(1.35); opacity: 0; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* --- Large Desktop --- */
+@media (min-width: 1400px) {
+  .wa-float-wrapper { right: 32px; bottom: 32px; }
+  .wa-float-btn     { height: 62px; padding: 0 28px; gap: 12px; }
+  .wa-icon          { width: 30px; height: 30px; }
+  .wa-label         { font-size: 17px; }
+}
+
+/* --- Tablet --- */
+@media (max-width: 992px) {
+  .wa-float-btn { height: 52px; padding: 0 20px; gap: 8px; }
+  .wa-icon      { width: 26px; height: 26px; }
+  .wa-label     { font-size: 15px; }
+}
+
+/* --- Mobile: Circle Shape --- */
+@media (max-width: 768px) {
+  .wa-float-wrapper { right: 18px; bottom: 18px; }
+
+  .wa-float-btn {
+    width: 60px;
+    height: 60px;
+    padding: 0;
+    gap: 0;
+    border-radius: var(--wa-radius-circle);
+  }
+
+  .wa-label { display: none; }
+
+  .wa-icon { width: 32px; height: 32px; }
+
+  @keyframes wa-pulse {
+    0%   { transform: scale(1);    opacity: 0.6; }
+    100% { transform: scale(1.75); opacity: 0; }
+  }
+}
+
+/* --- Small Mobile --- */
+@media (max-width: 480px) {
+  .wa-float-wrapper { right: 14px; bottom: 14px; }
+  .wa-float-btn     { width: 56px; height: 56px; }
+  .wa-icon          { width: 28px; height: 28px; }
+}
+
+/* --- Accessibility: Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+  .wa-float-btn,
+  .wa-icon,
+  .wa-pulse-ring {
+    animation: none !important;
+    transition: none !important;
+  }
+  .wa-pulse-ring { display: none; }
+}
+
+/* --- Print: Hide Button --- */
+@media print {
+  .wa-float-wrapper { display: none !important; }
+}
