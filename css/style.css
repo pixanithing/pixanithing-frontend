@@ -1030,3 +1030,52 @@ header.scrolled {
         padding: 20px !important;
     }
 }
+/* ========================================
+   RECTANGLE LOGO STYLES
+   ======================================== */
+.rectangle-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+/* Hover effect (optional) */
+.rectangle-logo:hover {
+    transform: translateY(-2px);
+}
+
+.rectangle-logo .logo-pix-img {
+    height: 50px; /* Header ke hisaab se height adjust ki hai */
+    width: auto;
+    object-fit: contain;
+}
+
+.rectangle-logo .logo-text-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.rectangle-logo .logo-anithing {
+    font-size: 26px; /* Header ke hisaab se size adjust ki hai */
+    font-weight: 500;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1;
+    letter-spacing: 2px;
+    font-family: var(--font-family);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .rectangle-logo .logo-pix-img {
+        height: 40px;
+    }
+    .rectangle-logo .logo-anithing {
+        font-size: 20px;
+        letter-spacing: 1px;
+    }
+}
